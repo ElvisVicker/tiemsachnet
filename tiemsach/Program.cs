@@ -1,8 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using tiemsach.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<TiemsachContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("TiemSach"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
