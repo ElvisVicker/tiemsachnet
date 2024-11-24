@@ -8,11 +8,11 @@ public partial class Nxb
 {
     public long Id { get; set; }
 
-    [Required(ErrorMessage ="Không được bỏ trốg tên nhà xuất bản")]
-    public string Ten { get; set; }
+    [Required(ErrorMessage = "Không được bỏ trốg tên nhà xuất bản")]
+    public string Ten { get; set; } = null!;
 
-    [Required(ErrorMessage ="Không được bỏ trống địa chỉ!")]
-    public string Diachi { get; set; }
+    [Required(ErrorMessage = "Không được bỏ trống địa chỉ")]
+    public string Diachi { get; set; } = null!;
 
     public bool Tinhtrang { get; set; }
 
