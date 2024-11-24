@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace tiemsach.Data;
 
@@ -7,10 +8,13 @@ public partial class Sach
 {
     public long Id { get; set; }
 
+    [Required(ErrorMessage = "Không được bỏ trống tên sách!")]
     public string Ten { get; set; } = null!;
 
+    [Required(ErrorMessage = "Không được bỏ trống hình ảnh!")]
     public string Image { get; set; } = null!;
 
+    [Required(ErrorMessage =  "Không được bỏ trống giá nhập!")]
     public double Gianhap { get; set; }
 
     public double Giaxuat { get; set; }
