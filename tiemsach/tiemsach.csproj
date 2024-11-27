@@ -7,6 +7,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\.DS_Store" />
+    <None Include="wwwroot\css\.DS_Store" />
+    <None Include="wwwroot\documentation\.DS_Store" />
+    <None Include="wwwroot\fonts\.DS_Store" />
+    <None Include="wwwroot\fonts\Roboto\.DS_Store" />
+    <None Include="wwwroot\images\.DS_Store" />
+    <None Include="wwwroot\images\auth\.DS_Store" />
+    <None Include="wwwroot\images\faces\.DS_Store" />
+    <None Include="wwwroot\js\.DS_Store" />
+    <None Include="wwwroot\pages\.DS_Store" />
+    <None Include="wwwroot\pages\charts\.DS_Store" />
+    <None Include="wwwroot\pages\forms\.DS_Store" />
+    <None Include="wwwroot\pages\icons\.DS_Store" />
+    <None Include="wwwroot\pages\samples\.DS_Store" />
+    <None Include="wwwroot\pages\tables\.DS_Store" />
+    <None Include="wwwroot\pages\ui-features\.DS_Store" />
+    <None Include="wwwroot\partials\.DS_Store" />
+    <None Include="wwwroot\scss\.DS_Store" />
+    <None Include="wwwroot\scss\components\.DS_Store" />
+    <None Include="wwwroot\scss\mixins\.DS_Store" />
+    <None Include="wwwroot\vendors\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
