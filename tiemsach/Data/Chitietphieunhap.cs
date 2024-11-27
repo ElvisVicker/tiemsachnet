@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace tiemsach.Data;
 
 public partial class Chitietphieunhap
 {
+    public long Id { get; set; }
+
     public long PhieunhapId { get; set; }
 
     public double Gianhap { get; set; }

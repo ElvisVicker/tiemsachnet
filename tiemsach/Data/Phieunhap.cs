@@ -22,4 +22,5 @@ public partial class Phieunhap
     public virtual Nhanvien Nhanvien { get; set; } = null!;
 
     public virtual Nxb Nxb { get; set; } = null!;
+
 }
