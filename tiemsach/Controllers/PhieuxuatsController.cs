@@ -22,7 +22,7 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Index()
         {
             var tiemsachContext = _context.Phieuxuats.Include(p => p.Khachhang).Include(p => p.Nhanvien);
-            return View(await tiemsachContext.ToListAsync());
+            return View(tiemsachContext.ToListAsync());
         }
 
         // GET: Phieuxuats/Details/5
