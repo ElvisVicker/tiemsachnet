@@ -1,0 +1,67 @@
+@model IEnumerable<tiemsach.Data.Phieunhap>
+
+@{
+    ViewData["Title"] = "Phiếu nhập";
+}
+
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Danh sách phiếu nhập</h2>
+            <a asp-action="Create" class="btn btn-inverse-primary btn-fw">Create New</a>
+            <div class="table-responsive pt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Nhà xuất bản
+                            </th>
+                            <th>
+                                Tình trạng
+                            </th>
+                            <th>
+                                Nhân viên nhập
+                            </th>
+                            <th>
+                                Ngày tạo
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nxb.Ten)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tinhtrang)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nhanvien.IdNavigation.Hoten)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -41,9 +41,9 @@ public partial class TiemsachContext : DbContext
 
     public virtual DbSet<Tacgia> Tacgia { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Data Source=EV\\SQLEXPRESS;Initial Catalog=tiemsach;Integrated Security=True;Trust Server Certificate=True");
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Data Source=EV\\SQLEXPRESS;Initial Catalog=tiemsach;Integrated Security=True;Trust Server Certificate=True");
 
 
 
@@ -56,9 +56,12 @@ public partial class TiemsachContext : DbContext
     {
         modelBuilder.Entity<Chitietphieunhap>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("chitietphieunhap");
+            entity.HasKey(e => e.Id)
+                .HasName("PK_chitietphieunhap");
+
+            entity.ToTable("chitietphieunhap");
+
+            entity.Property(e => e.Id).HasColumnName("id");
 
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
