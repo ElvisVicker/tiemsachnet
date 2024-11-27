@@ -169,7 +169,7 @@ namespace tiemsach.Controllers
             var result = await _context.Nhanviens.Where(
                 nv => nv.Vitri.Equals(key) || nv.Id == int.Parse(key)
                 ).ToListAsync();
-            return View("Index", result);
+            return View("Index", result); 
         }
     }
 }

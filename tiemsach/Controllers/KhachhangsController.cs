@@ -176,7 +176,7 @@ namespace tiemsach.Controllers
             List<Diachi> diachiList = new List<Diachi>();
             foreach (var khachhang in chitietdiachi)
                 diachiList.Add(await _context.Diachis.FindAsync(khachhang.DiachiId));
-            return diachiList;
+            return diachiList; 
         }
     }
 }

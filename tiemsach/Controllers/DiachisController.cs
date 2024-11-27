@@ -158,7 +158,7 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Search(string key)
         {
             var list = await _context.Diachis.Where(e => e.Id == int.Parse(key)||e.Ten.Equals(key)).ToListAsync();
-            return View("index", list);
+            return View("index", list); 
         }
     }
 }
