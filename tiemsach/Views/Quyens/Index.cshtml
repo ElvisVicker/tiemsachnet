@@ -1,0 +1,107 @@
+﻿@model IEnumerable<tiemsach.Data.Quyen>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ten)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tinhtrang)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeletedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnnguoidung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cntacgia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnloaisach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnsach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnquyen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnnhap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnxuat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cnnxb)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tinhtrang)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeletedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnnguoidung)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cntacgia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnloaisach)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnsach)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnquyen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnnhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnxuat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnnxb)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
