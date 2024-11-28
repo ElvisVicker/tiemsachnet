@@ -184,7 +184,7 @@ namespace tiemsach.Controllers
                 ctpn.CreatedAt = DateTime.Now;
                 _context.Chitietphieunhaps.Add(ctpn);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { id = ctpn.PhieunhapId });
             }
 
             return View(ctpn);
@@ -239,7 +239,7 @@ namespace tiemsach.Controllers
                 existingCTPN.SachId = ctpn.SachId;
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { id = existingCTPN.PhieunhapId });
             }
 
 
@@ -267,17 +267,18 @@ namespace tiemsach.Controllers
             return View(ctpn);
         }
 
-
         public async Task<IActionResult> DeleteCTPN(long id)
         {
             var ctpn = await _context.Chitietphieunhaps.FindAsync(id);
+            long pnId = 0;
             if (ctpn != null)
             {
+                pnId = ctpn.PhieunhapId;
                 _context.Chitietphieunhaps.Remove(ctpn);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Edit), new { id = pnId });
         }
 
         public async Task<IActionResult> Delete(long id)
