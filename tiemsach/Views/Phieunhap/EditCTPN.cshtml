@@ -1,44 +1,50 @@
 @model tiemsach.Data.Chitietphieunhap
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Sửa chi tiết phiếu nhập";
 
     var books = ViewData["SachList"] as List<SelectListItem>;
 }
 
-<div class="col-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Thông tin phiếu nhập</h4>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Thông tin chi tiết phiếu nhập</h4>
 
-            <form asp-action="EditCTPN" class="forms-sample">
-                <div class="form-group">
-                    <label asp-for="SachId">Sách</label>
-                    <select asp-for="SachId" class="form-control form-control-sm">
-                        @foreach (var item in books)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
+                        <form asp-action="EditCTPN" id="phieunhap-form" class="forms-sample">
+                            <div class="form-group">
+                                <label asp-for="SachId">Sách</label>
+                                <select asp-for="SachId" class="form-control form-control-sm">
+                                    @foreach (var item in books)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gianhap">Giá nhập</label>
+                                <input asp-for="Gianhap" type="number" id="Gianhap" class="form-control">
+                                <span class="text-danger" id="errorGianhap"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Soluong">Số lượng</label>
+                                <input asp-for="Soluong" type="number" id="Soluong" class="form-control">
+                                <span class="text-danger" id="errorSoluong"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" class="form-check-input" asp-for="Tinhtrang" />
+                                <label class="form-check-label mx-1" asp-for="Tinhtrang">Đã duyệt</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary me-2">Sửa</button>
+                            <button asp-action="Edit" asp-route-id="@Model.PhieunhapId"
+                                class="btn btn-light">Hủy</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Gianhap">Giá nhập</label>
-                    <input asp-for="Gianhap" type="number" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label asp-for="Soluong">Số lượng</label>
-                    <input asp-for="Soluong" type="number" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label asp-for="Tinhtrang">Tình trạng</label>
-                    <select asp-for="Tinhtrang" class="form-control form-control-sm">
-                        <option value="false">Chưa duyệt</option>
-                        <option value="true">Đã duyệt</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary me-2">Sửa</button>
-                <button asp-action="Edit" asp-route-id="@Model.PhieunhapId" class="btn btn-light">Hủy</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
