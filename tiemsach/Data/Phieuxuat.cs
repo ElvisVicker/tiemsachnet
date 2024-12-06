@@ -24,4 +24,11 @@ public partial class Phieuxuat
     public virtual Khachhang Khachhang { get; set; } = null!;
 
     public virtual Nhanvien Nhanvien { get; set; } = null!;
+
+
+	//public virtual Chitietphieuxuat Chitietphieuxuat { get; set; } = null!;
+
+	public virtual ICollection<Chitietphieuxuat> Chitietphieuxuat { get; set; } = new List<Chitietphieuxuat>();
+
+    //public virtual ICollection<Chitietphieuxuat> Chitietphieuxuats { get; set; }
 }

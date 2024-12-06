@@ -91,39 +91,83 @@ public partial class TiemsachContext : DbContext
                 .HasConstraintName("FK_chitietphieunhap_sach");
         });
 
-        modelBuilder.Entity<Chitietphieuxuat>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("chitietphieuxuat");
 
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.DeletedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("deleted_at");
-            entity.Property(e => e.Giaxuat).HasColumnName("giaxuat");
-            entity.Property(e => e.PhieuxuatId).HasColumnName("phieuxuat_id");
-            entity.Property(e => e.SachId).HasColumnName("sach_id");
-            entity.Property(e => e.Soluong).HasColumnName("soluong");
-            entity.Property(e => e.Tinhtrang)
-                .HasDefaultValue(true)
-                .HasColumnName("tinhtrang");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
 
-            entity.HasOne(d => d.Phieuxuat).WithMany()
-                .HasForeignKey(d => d.PhieuxuatId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_chitietphieuxuat_phieuxuat");
+		modelBuilder.Entity<Chitietphieuxuat>(entity =>
+		{
+			// Define a composite key
+			entity.HasKey(e => new { e.PhieuxuatId, e.SachId })
+				.HasName("PK_chitietphieuxuat");
 
-            entity.HasOne(d => d.Sach).WithMany()
-                .HasForeignKey(d => d.SachId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_chitietphieuxuat_sach");
-        });
+			entity.ToTable("chitietphieuxuat");
+
+			entity.Property(e => e.CreatedAt)
+				.HasColumnType("datetime")
+				.HasColumnName("created_at");
+			entity.Property(e => e.DeletedAt)
+				.HasColumnType("datetime")
+				.HasColumnName("deleted_at");
+			entity.Property(e => e.Giaxuat).HasColumnName("giaxuat");
+			entity.Property(e => e.PhieuxuatId).HasColumnName("phieuxuat_id");
+			entity.Property(e => e.SachId).HasColumnName("sach_id");
+			entity.Property(e => e.Soluong).HasColumnName("soluong");
+			entity.Property(e => e.Tinhtrang)
+				.HasDefaultValue(true)
+				.HasColumnName("tinhtrang");
+			entity.Property(e => e.UpdatedAt)
+				.HasColumnType("datetime")
+				.HasColumnName("updated_at");
+
+			// Define the relationship with Phieuxuat
+			entity.HasOne(d => d.Phieuxuat)
+				.WithMany(p => p.Chitietphieuxuat) // Assuming you have a collection in Phieuxuat
+				.HasForeignKey(d => d.PhieuxuatId)
+				.OnDelete(DeleteBehavior.ClientSetNull)
+				.HasConstraintName("FK_chitietphieuxuat_phieuxuat");
+
+			// Define the relationship with Sach
+			entity.HasOne(d => d.Sach)
+				.WithMany()
+				.HasForeignKey(d => d.SachId)
+				.OnDelete(DeleteBehavior.ClientSetNull)
+				.HasConstraintName("FK_chitietphieuxuat_sach");
+		});
+
+
+
+		//modelBuilder.Entity<Chitietphieuxuat>(entity =>
+  //      {
+  //          entity
+  //              .HasNoKey()
+  //              .ToTable("chitietphieuxuat");
+
+  //          entity.Property(e => e.CreatedAt)
+  //              .HasColumnType("datetime")
+  //              .HasColumnName("created_at");
+  //          entity.Property(e => e.DeletedAt)
+  //              .HasColumnType("datetime")
+  //              .HasColumnName("deleted_at");
+  //          entity.Property(e => e.Giaxuat).HasColumnName("giaxuat");
+  //          entity.Property(e => e.PhieuxuatId).HasColumnName("phieuxuat_id");
+  //          entity.Property(e => e.SachId).HasColumnName("sach_id");
+  //          entity.Property(e => e.Soluong).HasColumnName("soluong");
+  //          entity.Property(e => e.Tinhtrang)
+  //              .HasDefaultValue(true)
+  //              .HasColumnName("tinhtrang");
+  //          entity.Property(e => e.UpdatedAt)
+  //              .HasColumnType("datetime")
+  //              .HasColumnName("updated_at");
+
+  //          entity.HasOne(d => d.Phieuxuat).WithMany()
+  //              .HasForeignKey(d => d.PhieuxuatId)
+  //              .OnDelete(DeleteBehavior.ClientSetNull)
+  //              .HasConstraintName("FK_chitietphieuxuat_phieuxuat");
+
+  //          entity.HasOne(d => d.Sach).WithMany()
+  //              .HasForeignKey(d => d.SachId)
+  //              .OnDelete(DeleteBehavior.ClientSetNull)
+  //              .HasConstraintName("FK_chitietphieuxuat_sach");
+  //      });
 
         modelBuilder.Entity<Diachi>(entity =>
         {
