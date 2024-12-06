@@ -1,12 +1,15 @@
 ﻿<!DOCTYPE html>
 
 <html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
 
-      <!-- Required meta tags -->
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>@ViewBag.Title</title>
+
+  <!-- Required meta tags -->
   <meta charset="utf-8">
+  <!-- sweet alert -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <!-- plugins:css -->
   <link rel="stylesheet" href="~/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="~/vendors/base/vendor.bundle.base.css">
@@ -19,9 +22,11 @@
   <link rel="shortcut icon" href="~/images/favicon.png" />
 
 </head>
+
 <body>
-    <div>
-        @await Html.PartialAsync("_Nav")
+  <div>
+    @await Html.PartialAsync("_Nav")
+
 
          <div class="container-fluid page-body-wrapper">
             @await Html.PartialAsync("_Sidebar")
@@ -31,19 +36,25 @@
             <div class="row">
 
 
+
             @RenderBody()
 
              </div>
               </div>
                </div>
 
-        </div>
-        @await Html.PartialAsync("_Footer")
     </div>
+    @await Html.PartialAsync("_Footer")
+  </div>
+
 
 
 
     @RenderSection("Scripts", required: false) 
+
+
+  <!-- sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- plugins:js -->
   <script src="~/vendors/base/vendor.bundle.base.js"></script>
@@ -57,9 +68,11 @@
   <script src="~/js/hoverable-collapse.js"></script>
   <script src="~/js/template.js"></script>
   <script src="~/js/todolist.js"></script>
+  <script src="~/js/check-form.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script src="~/js/dashboard.js"></script>
   <!-- End custom js for this page-->
 </body>
+
 </html>
