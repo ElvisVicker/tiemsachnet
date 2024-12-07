@@ -12,14 +12,23 @@ namespace tiemsach.Controllers
 {
     public class PhieuxuatsController : Controller
     {
+
+
+
+
+
+
         private readonly TiemsachContext _context;
         public PhieuxuatsController(TiemsachContext context)
         {
             _context = context;
+    
         }
         // GET: Phieuxuats
         public async Task<IActionResult> Index()
         {
+
+            ViewData["Layout"] = "_LayoutAdmin";
             var phieuxuats = _context.Phieuxuats.Include(p => p.Khachhang).ThenInclude(kh => kh.IdNavigation)
                 .Include(p => p.Nhanvien).ThenInclude(nv => nv.IdNavigation);
             return View(await phieuxuats.ToListAsync());
@@ -61,7 +70,9 @@ namespace tiemsach.Controllers
         // GET: Phieuxuats/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-			if (id == null)
+
+            ViewData["Layout"] = "_LayoutAdmin";
+            if (id == null)
 			{
 				return NotFound();
 			}
@@ -97,7 +108,8 @@ namespace tiemsach.Controllers
 		public async Task<IActionResult> Edit(long id, Phieuxuat phieuxuat, List<Chitietphieuxuat> chitietphieuxuats)
 		{
 
-			var updatePhieuXuat = await _context.Phieuxuats.FirstOrDefaultAsync(p => p.Id == id);
+            ViewData["Layout"] = "_LayoutAdmin";
+            var updatePhieuXuat = await _context.Phieuxuats.FirstOrDefaultAsync(p => p.Id == id);
 
 			if (updatePhieuXuat == null)
 			{
@@ -211,6 +223,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SoftDelete(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var phieuxuat = await _context.Phieuxuats.FindAsync(id);
             if (phieuxuat != null)
             {
@@ -230,6 +243,7 @@ namespace tiemsach.Controllers
         //[HttpPost, ActionName("SoftDelete")]
         public async Task<IActionResult> Restore(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var phieuxuat = await _context.Phieuxuats.FindAsync(id);
             if (phieuxuat != null)
             {
@@ -247,6 +261,7 @@ namespace tiemsach.Controllers
 
         private bool PhieuxuatExists(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return _context.Phieuxuats.Any(e => e.Id == id);
         }
     }
