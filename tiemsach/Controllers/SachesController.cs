@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using tiemsach.Data;
 
 namespace tiemsach.Controllers
@@ -49,7 +50,7 @@ namespace tiemsach.Controllers
         public IActionResult Create()
         {
             ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten");
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Id");
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten");
             return View();
         }
 
@@ -58,16 +59,24 @@ namespace tiemsach.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ten,Image,Gianhap,Giaxuat,Mota,Soluong,Tinhtrang,TacgiaId,LoaisachId")] Sach sach)
+        public async Task<IActionResult> Create([Bind(",Ten,Image,Mota,TacgiaId,LoaisachId")] Sach sach)
         {
+            sach.Soluong = 0;
+            sach.Gianhap = 0;
+            sach.Giaxuat = 0;
+
+            sach.Tinhtrang = true;
+
             if (ModelState.IsValid)
             {
                 _context.Add(sach);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Sách đã được tạo thành công!";
                 return RedirectToAction(nameof(Index));
             }
+            TempData["ErrorMessage"] = "Đã xảy ra lỗi, vui lòng kiểm tra lại!";
             ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Id", sach.TacgiaId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
             return View(sach);
         }
 
@@ -85,7 +94,7 @@ namespace tiemsach.Controllers
                 return NotFound();
             }
             ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Id", sach.TacgiaId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
             return View(sach);
         }
 
@@ -101,28 +110,23 @@ namespace tiemsach.Controllers
                 return NotFound();
             }
 
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(sach);
-                    await _context.SaveChangesAsync();
+                    _context.Add(sach); // Thêm đối tượng vào context
+                    await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
+                    return RedirectToAction(nameof(Index)); // Chuyển hướng về trang danh sách
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!SachExists(sach.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // Xử lý lỗi lưu trữ nếu có
+                    ModelState.AddModelError("", "Không thể lưu dữ liệu. Lỗi: " + ex.Message);
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Id", sach.TacgiaId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
             return View(sach);
         }
 

@@ -1,3 +1,8 @@
+
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using tiemsach.Models;
+
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +22,14 @@ namespace tiemsach.Controllers
     public class HomeController : Controller
     {
 
-        private readonly TiemsachContext _context;
+        private readonly ILogger<HomeController> _logger;
 
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        private readonly TiemsachContext _context;
 
         public HomeController(TiemsachContext context)
         {
@@ -27,9 +38,23 @@ namespace tiemsach.Controllers
 
         public IActionResult Index()
         {
-            ViewData["Layout"] = "_LayoutCustomer";
+        
+               ViewData["Layout"] = "_LayoutCustomer";
             return View("/Views/Customer/Home.cshtml");
         }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    
+
 
         [HttpGet]
         public IActionResult Register()
@@ -39,9 +64,6 @@ namespace tiemsach.Controllers
             return View("/Views/Shared/_Register.cshtml");
 
         }
-
-
-
 
 
         [HttpPost]
@@ -250,4 +272,5 @@ namespace tiemsach.Controllers
 		//}
 
 	}
+
 }
