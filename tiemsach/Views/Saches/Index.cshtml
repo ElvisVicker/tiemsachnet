@@ -13,32 +13,33 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Ten)
+                Tên
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Image)
+                Hình ảnh
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gianhap)
+                Loại sách
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Giaxuat)
+                Tác giả
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mota)
+                Giá nhập
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Soluong)
+                Giá xuất
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tinhtrang)
+                Mô tả
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Loaisach)
+                Số lượng
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tacgia)
+                Tình trạng
             </th>
+
             <th></th>
         </tr>
     </thead>
@@ -50,6 +51,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Loaisach.Ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tacgia.Ten)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gianhap)
@@ -65,13 +72,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Tinhtrang)
+                    @(item.Tinhtrang ? "Đang bán" : "Ngưng bán")
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Loaisach.Ten)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tacgia.Id)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
