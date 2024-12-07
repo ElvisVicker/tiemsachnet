@@ -17,15 +17,41 @@
 								<li>
 									<a href="#"><i class="icon icon-behance-square"></i></a>
 								</li>
+
+							@if (User.Identity.IsAuthenticated)
+							{
+									<span>Welcome @Context.User.Identity.Name</span>
+							}
+
+
+
+						
 							</ul>
+							
 						</div><!--social-links-->
+
+
+							
 					</div>
 					<div class="col-md-6">
 						<div class="right-element">
-							<a asp-action="Login" class="user-account for-buy"><i
-									class="icon icon-user"></i><span>Account</span></a>
 
-									<a asp-action="DangXuat">Dang xuat</a>
+
+						@if (!User.Identity.IsAuthenticated)
+						{
+							<a asp-action="Login" class="user-account for-buy">Login</a>	
+						}
+
+
+						@if (User.Identity.IsAuthenticated)
+						{
+								<a asp-controller="Home" asp-action="DangXuat" class="user-account for-buy" onclick="return confirm('Bạn có dang xuat?');" >Logout</a>
+						}
+
+
+							
+
+								
 
 
 							<a href="#" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart:(0
