@@ -1,7 +1,153 @@
-﻿
+﻿@model IEnumerable<tiemsach.Data.Phieuxuat>
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
+
+   <div class="col-lg-12 grid-margin stretch-card">
+				<div class="card">
+				  <div class="card-body">
+					<h4 class="card-title">Danh sách phiếu xuất</h4>
+
+					<div class="table-responsive">
+					  <table class="table table-hover">
+						<thead>
+						  <tr>
+							<th>#</th>
+							<th>Tên khách hàng</th>
+							<th>Tên Nhân viên</th>
+							<th>Ngày xuất phiếu</th>
+
+							<th>Tình trạng</th>
+							 <th>Action</th>
+						  </tr>
+						</thead>
+						<tbody>
+
+
+						@foreach (var item in Model)
+						{
+										<tr>
+											<td>
+									@Html.DisplayFor(model => item.Id)
+
+											</td>
+
+										   <td>
+									@Html.DisplayFor(model => item.Khachhang.IdNavigation.Hoten)
+											</td>
+
+
+											 <td>
+
+									@Html.DisplayFor(model => item.Nhanvien.IdNavigation.Hoten)
+
+											 </td>
+
+
+										<td>
+									@Html.DisplayFor(model => item.CreatedAt)
+
+										</td>
+
+
+
+										 <td>
+
+									@if (item.Tinhtrang)
+									{
+												<button type="button" class="btn btn-success">Duyet</button>
+
+									}
+									else
+									{
+											 <button type="button" class="btn btn-danger">Chua duyet</button>
+									}
+												</td>
+
+												<td>
+
+
+
+														<a asp-action="Edit" asp-route-id="@item.Id">
+															  <button type="button" class="btn btn-primary btn-rounded btn-fw">Edit</button>
+															 </a>
+									
+
+											</td>		 
+															 
+															 
+															 
+															 
+															 @* 
+																 	<td>
+									       @if (item.Tinhtrang)
+									       {
+
+											<a asp-action="Edit" asp-route-id="@item.Id">
+															  <button type="button" class="btn btn-primary btn-rounded btn-fw">Edit</button>
+															 </a>
+
+									       			  <form asp-action="SoftDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
+									       						<button type="submit" class="btn btn-danger btn-rounded btn-fw" onclick="return confirm('Bạn có muốn xóa?');">Delete</button>
+									       			  </form>
+
+									       }
+
+
+
+									       else
+									       {
+									       			<form asp-action="Restore" asp-route-id="@item.Id" method="post" style="display:inline;">
+									       			<button type="submit" class="btn btn-success btn-rounded btn-fw" onclick="return confirm('Bạn có muốn khôi phục lại?');">Restore</button>
+									       			</form>
+									       }
+
+										</td>
+
+										    *@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+										</tr>
+						}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						</tbody>
+					  </table>
+					</div>
+				  </div>
+				</div>
+			  </div>

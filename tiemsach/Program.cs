@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using tiemsach.Data;
 
@@ -9,6 +11,17 @@ builder.Services.AddDbContext<TiemsachContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("TiemSach"));
 });
+
+
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Home/Login";
+    options.AccessDeniedPath = "/";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,10 +37,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,64 +1,137 @@
 ﻿@model tiemsach.Data.Phieuxuat
 
+
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Edit";
+    var CTPXList = ViewData["CTPXList"] as List<tiemsach.Data.Chitietphieuxuat>;
 }
+
+
 
 <h1>Edit</h1>
 
 <h4>Phieuxuat</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="KhachhangId" class="control-label"></label>
-                <select asp-for="KhachhangId" class="form-control" asp-items="ViewBag.KhachhangId"></select>
-                <span asp-validation-for="KhachhangId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tendiachi" class="control-label"></label>
-                <input asp-for="Tendiachi" class="form-control" />
-                <span asp-validation-for="Tendiachi" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Tinhtrang" /> @Html.DisplayNameFor(model => model.Tinhtrang)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NhanvienId" class="control-label"></label>
-                <select asp-for="NhanvienId" class="form-control" asp-items="ViewBag.NhanvienId"></select>
-                <span asp-validation-for="NhanvienId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+                <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Danh sach da xuat</h4>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+                    <div class="table-responsive">
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>Sach ID</th>
+                            <th>Ten Sach</th>
+                            <th>So Luong</th>
+                            <th>Gia</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+
+                                @foreach (var item in CTPXList)
+                                {
+                                                <tr>
+                                                    <td>
+                                            @Html.DisplayFor(modelItem => item.SachId)
+                                                    </td>
+                                                    <td>
+                                            @Html.DisplayFor(modelItem => item.Sach.Ten)
+                                                    </td>
+                                                                <td>
+                                            @Html.DisplayFor(modelItem => item.Soluong)
+                                                            </td>
+                                                    <td>
+                                            @Html.DisplayFor(modelItem => item.Giaxuat)
+                                                    </td> 
+                                                </tr>
+                                }
+
+                      </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+	<div class="col-md-6 grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Default form</h4>
+				  <p class="card-description">
+					Basic form layout
+				  </p>
+				  <form class="forms-sample" asp-action="Edit">
+					 <input type="hidden" asp-for="Id" />
+
+
+					<div class="form-group">
+						 <label asp-for="Nhanvien.IdNavigation.Hoten">Ho ten nhan vien</label>
+                         <input type="text" name="Nhanvien.IdNavigation.Hoten" asp-for="Nhanvien.IdNavigation.Hoten" class="form-control" readonly/>
+						 <span asp-for="Nhanvien.IdNavigation.Hoten" class="text-danger"></span>
+					  </div>
+
+                          <div class="form-group">
+                         <label asp-for="Khachhang.IdNavigation.Hoten">Ho ten khach hang</label>
+                         <input type="text" name="Khachhang.IdNavigation.Hoten"  asp-for="Khachhang.IdNavigation.Hoten" class="form-control" readonly/>
+                         <span asp-for="Khachhang.IdNavigation.Hoten" class="text-danger"></span>
+                      </div>
+
+
+                            <div class="form-group">
+                         <label asp-for="Tendiachi">Dia chi</label>
+                         <input type="text" asp-for="Tendiachi" name="Tendiachi" class="form-control" readonly/>
+                         <span asp-for="Tendiachi" class="text-danger"></span>
+                      </div>
+
+
+                      <div class="form-group">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input"  for="Tinhtrang"  name="Tinhtrang" value="true" @(Model.Tinhtrang ? "checked" : "")   >
+                              Duyet
+                            <i class="input-helper"></i></label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+								<input type="radio" class="form-check-input" for="Tinhtrang"  name="Tinhtrang" value="false"  @(!Model.Tinhtrang? "checked" : "")>
+                              Chua duyet
+                            <i class="input-helper"></i></label>
+                          </div>
+                       
+                        </div>
+
+
+
+
+					 <input type="submit" value="Save"  class="btn btn-primary me-2" />
+
+
+                
+                      <a  class="btn btn-secondary me-2" asp-action="Index">Back to List</a>
+                  
+
+				  </form>
+
+					 
+				</div>
+			  </div>
+			</div>
+
+
+      </div>
+
+
+
+	@section Scripts {
+		@{
+			await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		}
+	}
