@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using tiemsach.Data;
 using tiemsach.ViewModels;
@@ -17,18 +18,36 @@ namespace tiemsach.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewData["Layout"] = "_LayoutCustomer";
-            return View("/Views/Customer/Home.cshtml");
+            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).ToListAsync();
+
+            return View("/Views/Customer/Home.cshtml", books);
+        }
+
+        public async Task<IActionResult> Detail(long id)
+        {
+            ViewData["Layout"] = "_LayoutCustomer";
+            var book = await _context.Saches
+                .Include(s => s.Tacgia)
+                .Include(s => s.Loaisach)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View("Views/Customer/Detail.cshtml", book);
         }
 
 
 
-		//public IActionResult Login()
-		//{
-		//	return View("/Views/Shared/_Login.cshtml");
-		//}
+        //public IActionResult Login()
+        //{
+        //	return View("/Views/Shared/_Login.cshtml");
+        //}
 
 
         [HttpGet]
@@ -45,9 +64,11 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> DangNhap(LoginVM model, string? ReturnUrl)
         {
             ViewBag.ReturnUrl = ReturnUrl;
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 var nguoiDung = _context.Nguoidungs.SingleOrDefault(kh => kh.Email == model.Email);
-                if (nguoiDung == null) {
+                if (nguoiDung == null)
+                {
                     ModelState.AddModelError("loi", "Khong tim thay tai khoan");
                 }
                 else
@@ -58,7 +79,7 @@ namespace tiemsach.Controllers
                     }
                     else
                     {
-                        if(nguoiDung.Password != model.Password)
+                        if (nguoiDung.Password != model.Password)
                         {
                             ModelState.AddModelError("loi", "Sai mat khau");
                         }
@@ -77,16 +98,16 @@ namespace tiemsach.Controllers
                             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                             await HttpContext.SignInAsync(claimsPrincipal);
-                          
 
 
 
-                             if (nguoiDung.Vaitro == false)
+
+                            if (nguoiDung.Vaitro == false)
                             {
                                 // Set the layout for Customer
                                 //ViewData["Layout"] = "~/Views/Shared/_LayoutCustomer.cshtml";
                                 ViewData["Layout"] = "_LayoutCustomer";
-                                return RedirectToAction("Index", "Home"); 
+                                return RedirectToAction("Index", "Home");
                             }
 
 
@@ -105,18 +126,18 @@ namespace tiemsach.Controllers
                         }
                     }
                 }
-            
+
             }
             return View("/Views/Shared/_Login.cshtml");
         }
 
 
-        
+
 
 
         [Authorize]
-        
-            public async Task<IActionResult> DangXuat()
+
+        public async Task<IActionResult> DangXuat()
         {
             await HttpContext.SignOutAsync();
             return View("/Views/Customer/Home.cshtml");
