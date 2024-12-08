@@ -37,6 +37,14 @@ namespace tiemsach.Controllers
             ViewData["Layout"] = "_LayoutCustomer";
             var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).ToListAsync();
 
+            ViewData["categories"] = await _context.Loaisaches
+                .Select(nxb => new SelectListItem
+                {
+                    Value = nxb.Id.ToString(),
+                    Text = nxb.Ten
+                })
+                .ToListAsync();
+
             return View("/Views/Customer/Home.cshtml", books);
         }
 

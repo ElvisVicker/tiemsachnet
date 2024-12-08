@@ -43,14 +43,14 @@ Version: 1.1
 /* Fonts */
 :root {
   --body-font: "Raleway", sans-serif;
-  --heading-font: "Prata", Georgia, serif;
+  --heading-font: "Raleway", Georgia, serif;
   --secondary-font: "Playfair Display", Georgia, serif;
 }
 
 /* Bootstrap variables */
 :root,
 [data-bs-theme=light] {
-  --heading-font: "Prata", Georgia, serif;
+  --heading-font: "Raleway", Georgia, serif;
   --heading-font-weight: 400;
   --heading-color: var(--bs-dark);
   --heading-line-height: 1.1;
@@ -2532,8 +2532,12 @@ footer#footer {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  align-items: stretch;
+  align-items: center;
   width: 100%;
+}
+
+.input-group input {
+  height: 65px;
 }
 
 .input-group>.form-control,

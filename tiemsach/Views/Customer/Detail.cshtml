@@ -1,5 +1,6 @@
 @model tiemsach.Data.Sach
 
+
 <div class="container-fluid py-5">
     <div class="row px-xl-5">
         <div class="col-lg-5 pb-5">
@@ -14,6 +15,7 @@
 
         <div class="col-lg-7 pb-5">
             <h3 class="font-weight-semi-bold">@Model.Ten</h3>
+            <h4 class="font-weight-semi-bold mb-4">@Model.Tacgia.Ten</h4>
             <div class="d-flex mb-3">
                 <div class="text-primary mr-2">
                     <small class="fas fa-star"></small>
@@ -25,7 +27,6 @@
                 <small class="pt-1">(50 Reviews)</small>
             </div>
             <h3 class="font-weight-semi-bold mb-4">@Model.Giaxuat</h3>
-            <h4 class="font-weight-semi-bold mb-4">@Model.Tacgia.Ten</h4>
             <p class="mb-4">@Model.Mota</p>
 
             <div class="d-flex align-items-center">
@@ -35,7 +36,7 @@
                             <i class="fa fa-minus"></i>
                         </button>
                     </div>
-                    <input type="text" class="form-control bg-secondary text-center" value="1">
+                    <input type="text" class="form-control bg-secondary text-center" value="1" readonly>
                     <div class="input-group-btn">
                         <button class="btn btn-primary btn-plus">
                             <i class="fa fa-plus"></i>
