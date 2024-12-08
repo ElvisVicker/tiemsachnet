@@ -1,0 +1,121 @@
+﻿@model tiemsach.ViewModels.NhanVien_ViewModel
+
+@{
+    ViewData["Title"] = "Edit Employee";
+    // Add css links
+    <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css"/>
+    <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css"/>
+    <link rel="stylesheet" href="../../css/style.css"/>
+}
+
+<div class="container-fluid page-body-wrapper">
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Edit Employee</h4>
+                            <p class="card-description">Modify the details below and save your changes:</p>
+                            <form asp-action="Edit" enctype="multipart/form-data" class="forms-sample">
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <!-- ID (Disabled Input) -->
+                                <div class="form-group">
+                                    <label asp-for="id">Employee ID</label>
+                                    <input asp-for="id" class="form-control" disabled />
+                                    <input type="hidden" asp-for="id" />
+                                </div>
+
+                                <!-- Full Name -->
+                                <div class="form-group">
+                                    <label asp-for="hoten">Full Name</label>
+                                    <input asp-for="hoten" class="form-control" />
+                                    <span asp-validation-for="hoten" class="text-danger"></span>
+                                </div>
+
+                                <!-- Email (Disabled) -->
+                                <div class="form-group">
+                                    <label asp-for="email">Email</label>
+                                    <input asp-for="email" class="form-control" disabled />
+                                    <input type="hidden" asp-for="email" />
+                                    <span asp-validation-for="email" class="text-danger"></span>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="form-group">
+                                    <label asp-for="diachi">Address</label>
+                                    <input asp-for="diachi" class="form-control" />
+                                    <span asp-validation-for="diachi" class="text-danger"></span>
+                                </div>
+
+                                <!-- Phone Number -->
+                                <div class="form-group">
+                                    <label asp-for="sodienthoai">Phone Number</label>
+                                    <input asp-for="sodienthoai" class="form-control" />
+                                    <span asp-validation-for="sodienthoai" class="text-danger"></span>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="form-group">
+                                    <label asp-for="gioitinh">Gender</label>
+                                    <div class="form-check form-check-primary">
+                                        <input class="form-check-input" type="radio" asp-for="gioitinh" value="true" id="male" />
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-primary">
+                                        <input class="form-check-input" type="radio" asp-for="gioitinh" value="false" id="female" />
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                    <span asp-validation-for="gioitinh" class="text-danger"></span>
+                                </div>
+
+                                <!-- Image -->
+                                <div class="form-group">
+                                    <label asp-for="image">Profile Picture (Upload to Update)</label>
+                                    <input class="form-control file-upload-info" type="file" name="imageFile" />
+                                    <input type="hidden" asp-for="image" />
+                                    <span asp-validation-for="image" class="text-danger"></span>
+                                </div>
+
+                                <!-- Position -->
+                                <div class="form-group">
+                                    <label asp-for="vitri">Position</label>
+                                    <input asp-for="vitri" class="form-control" />
+                                    <span asp-validation-for="vitri" class="text-danger"></span>
+                                </div>
+
+                                <!-- Hidden Fields -->
+                                <input type="hidden" asp-for="created_at" />
+                                <input type="hidden" asp-for="updated_at" value="@DateTime.UtcNow" />
+                                <input type="hidden" asp-for="quyen_id" />
+                                <input type="hidden" asp-for="Quyens" />
+
+                                <!-- Buttons -->
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+                                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2023 Company Name</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="../../vendors/base/vendor.bundle.base.js"></script>
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+    <script src="../../js/file-upload.js"></script>
+}

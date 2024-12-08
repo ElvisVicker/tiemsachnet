@@ -1,0 +1,98 @@
+﻿@model IEnumerable<tiemsach.ViewModels.KhachHang_ViewModel>
+@{
+    ViewData["Title"] = "Customer List";
+    // <!-- Include CSS links -->
+    <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css" />
+    <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+}
+
+<!-- Header Section -->
+<div class="card mb-4 shadow-sm" style="background-color: #f5deb3;">
+    <div class="card-body text-center">
+        <h1 class="mb-0" style="color: #8b4513;">Customer List</h1>
+    </div>
+</div>
+
+<!-- Search Form -->
+<div class="mb-4 d-flex justify-content-center">
+    <form asp-action="Search" method="get" class="input-group" style="max-width: 400px;">
+        <input type="text" name="key" class="form-control" placeholder="Search customer..." />
+        <button type="submit" class="btn btn-primary">
+            <i class="ti-search"></i> Search
+        </button>
+    </form>
+</div>
+
+<!-- Customer Table -->
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Customer Table</h4>
+        <p class="card-description">Add, edit, or delete customer details below:</p>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Saved Addresses<th/>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        @* <th>Actions</th> *@
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        int counter = 1;
+                        foreach (var customer in Model)
+                        {
+                            <tr>
+                                <td>@counter</td>
+                                <td>@customer.hoten</td>
+                                <td>@customer.email</td>
+                                <td>@(customer.gioitinh ? "Male" : "Female")</td>
+                                <td>
+                                    <select>
+                                        @foreach (var item in customer.diachis)
+                                        {
+                                            <option>@item.Ten</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>@customer.created_at</td>
+                                <td>@customer.updated_at</td>
+                                 @* <td>
+                                     <a asp-action="Edit" asp-route-id="@customer.id" class="btn btn-sm btn-warning">
+                                         <i class="ti-pencil"></i> Edit
+                                     </a>
+                                     <a asp-action="Delete" asp-route-id="@customer.id" class="btn btn-sm btn-danger">
+                                         <i class="ti-trash"></i> Delete
+                                     </a>
+                                 </td> *@
+                            </tr>
+                            counter++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">No customers found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Include Scripts -->
+@section Scripts {
+    <script src="../../vendors/base/vendor.bundle.base.js"></script>
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+    <script src="../../js/todolist.js"></script>
+}

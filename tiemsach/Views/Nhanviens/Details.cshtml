@@ -1,0 +1,86 @@
+﻿@model tiemsach.ViewModels.NhanVien_ViewModel
+
+@{
+    ViewData["Title"] = "Employee Details";
+    // <!-- Include Template CSS -->
+    <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css" />
+    <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="../../css/style.css" />
+}
+
+<div class="container-fluid page-body-wrapper">
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-md-8 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Employee Details</h4>
+                            <p class="card-description">View details of the selected employee:</p>
+
+                            <!-- Image and Details -->
+                            <div class="row">
+                                <!-- Image Section -->
+                                <div class="col-md-4 text-center">
+                                    <img src="@Url.Content("~/Assets/UserProfile/" + Model.image)" alt="Profile Image" class="img-fluid rounded shadow" style="max-height: 200px;" />
+                                </div>
+                                <!-- Details Section -->
+                                <div class="col-md-8">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Full Name</dt>
+                                        <dd class="col-sm-8">@Model.hoten</dd>
+
+                                        <dt class="col-sm-4">Email</dt>
+                                        <dd class="col-sm-8">@Model.email</dd>
+
+                                        <dt class="col-sm-4">Gender</dt>
+                                        <dd class="col-sm-8">
+                                            @(Model.gioitinh ? "Male" : "Female")
+                                        </dd>
+
+                                        <dt class="col-sm-4">Position</dt>
+                                        <dd class="col-sm-8">@Model.vitri</dd>
+
+                                        <dt class="col-sm-4">Created At</dt>
+                                        <dd class="col-sm-8">@Model.created_at</dd>
+
+                                        <dt class="col-sm-4">Last Updated</dt>
+                                        <dd class="col-sm-8">@Model.updated_at</dd>
+                                    </dl>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="mt-4 d-flex justify-content-between">
+                                <a class="btn btn-primary me-2" asp-action="Edit" asp-route-id="@Model?.id">
+                                    <i class="ti-pencil"></i> Edit
+                                </a>
+                                <a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@Model?.id">
+                                    <i class="ti-trash"></i> Delete
+                                </a>
+                                <a class="btn btn-light" asp-action="Index">
+                                    <i class="ti-arrow-left"></i> Back to List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2023 Company Name</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Include Template JS -->
+    <script src="../../vendors/base/vendor.bundle.base.js"></script>
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+}
