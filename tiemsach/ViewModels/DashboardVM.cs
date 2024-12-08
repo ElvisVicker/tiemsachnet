@@ -2,6 +2,8 @@
 
 namespace tiemsach.ViewModels
 {
+
+
     public class DashboardVM
     {
         public List<Phieunhap> Phieunhaps { get; set; }
@@ -18,5 +20,10 @@ namespace tiemsach.ViewModels
         public int TotalSach { get; set; }
    
         public double TotalProfit { get; set; }
+
+
+        public List<string> LineChartLabels { get; set; }
+        public List<int> LineChartData { get; set; }
+
     }
 }

@@ -10,13 +10,9 @@ using tiemsach.Data;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class PhieuxuatsController : Controller
     {
-
-
-
-
-
 
         private readonly TiemsachContext _context;
         public PhieuxuatsController(TiemsachContext context)
