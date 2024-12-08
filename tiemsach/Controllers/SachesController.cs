@@ -62,7 +62,7 @@ namespace tiemsach.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind(",Ten,Image,Mota,TacgiaId,LoaisachId")] Sach sach)
+        public async Task<IActionResult> Create([Bind("Id,Ten,Image,Gianhap,Giaxuat,Mota,Soluong,Tinhtrang,TacgiaId,LoaisachId")] Sach sach)
         {
             ViewData["Layout"] = "_LayoutAdmin";
             sach.Soluong = 0;
@@ -121,7 +121,8 @@ namespace tiemsach.Controllers
             {
                 try
                 {
-                    _context.Add(sach); // Thêm đối tượng vào context
+                    sach.Tinhtrang = true;
+                    _context.Update(sach); // Thêm đối tượng vào context
                     await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
                     return RedirectToAction(nameof(Index)); // Chuyển hướng về trang danh sách
                 }
@@ -139,6 +140,7 @@ namespace tiemsach.Controllers
         // GET: Saches/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -161,10 +163,22 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var sach = await _context.Saches.FindAsync(id);
             if (sach != null)
             {
-                _context.Saches.Remove(sach);
+                try
+                {
+                    sach.Tinhtrang = false;
+                    _context.Update(sach); // Thêm đối tượng vào context
+                    await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
+                    return RedirectToAction(nameof(Index)); // Chuyển hướng về trang danh sách
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi lưu trữ nếu có
+                    ModelState.AddModelError("", "Không thể lưu dữ liệu. Lỗi: " + ex.Message);
+                }
             }
 
             await _context.SaveChangesAsync();
