@@ -22,6 +22,7 @@ namespace tiemsach.Controllers
         // GET: Saches
         public async Task<IActionResult> Index()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var tiemsachContext = _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia);
             return View(await tiemsachContext.ToListAsync());
         }
@@ -29,6 +30,7 @@ namespace tiemsach.Controllers
         // GET: Saches/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +51,7 @@ namespace tiemsach.Controllers
         // GET: Saches/Create
         public IActionResult Create()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten");
             ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten");
             return View();
@@ -61,6 +64,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind(",Ten,Image,Mota,TacgiaId,LoaisachId")] Sach sach)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             sach.Soluong = 0;
             sach.Gianhap = 0;
             sach.Giaxuat = 0;
@@ -83,6 +87,7 @@ namespace tiemsach.Controllers
         // GET: Saches/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -105,6 +110,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Image,Gianhap,Giaxuat,Mota,Soluong,Tinhtrang,TacgiaId,LoaisachId")] Sach sach)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id != sach.Id)
             {
                 return NotFound();
