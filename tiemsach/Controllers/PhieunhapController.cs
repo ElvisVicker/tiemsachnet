@@ -16,6 +16,7 @@ namespace tiemsach.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View(await _context.Phieunhaps
                 .Include(pn => pn.Nxb)
                 .Include(pn => pn.Nhanvien)
@@ -26,6 +27,7 @@ namespace tiemsach.Controllers
 
         public async Task<IActionResult> Create()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             ViewData["NxbList"] = await _context.Nxbs
                 .Select(nxb => new SelectListItem
                 {
@@ -49,6 +51,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Tinhtrang,NhanvienId,NxbId")] Phieunhap pn)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (pn.NhanvienId != null && pn.NxbId != null)
             {
                 pn.CreatedAt = DateTime.Now;
@@ -78,6 +81,7 @@ namespace tiemsach.Controllers
 
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -117,6 +121,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id, Tinhtrang, UpdatedAt, NhanvienId, NxbId")] Phieunhap pn)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -162,6 +167,7 @@ namespace tiemsach.Controllers
 
         public async Task<IActionResult> CreateCTPN(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             ViewData["SachList"] = await _context.Saches
                 .Select(nxb => new SelectListItem
                 {
@@ -179,6 +185,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCTPN([Bind("PhieunhapId, Gianhap, Soluong, Tinhtrang, DeletedAt, CreatedAt, UpdatedAt, SachId")] Chitietphieunhap ctpn)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (!ModelState.IsValid)
             {
                 ctpn.CreatedAt = DateTime.Now;
@@ -192,6 +199,7 @@ namespace tiemsach.Controllers
 
         public async Task<IActionResult> EditCTPN(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -218,6 +226,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCTPN(long id, [Bind("Id, Soluong, Gianhap, Tinhtrang, SachId")] Chitietphieunhap ctpn)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();

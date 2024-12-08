@@ -1,13 +1,13 @@
-
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using tiemsach.Models;
 
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -22,7 +22,7 @@ namespace tiemsach.Controllers
     public class HomeController : Controller
     {
 
-      
+
 
         private readonly TiemsachContext _context;
 
@@ -31,11 +31,36 @@ namespace tiemsach.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-        
-               ViewData["Layout"] = "_LayoutCustomer";
-            return View("/Views/Customer/Home.cshtml");
+            ViewData["Layout"] = "_LayoutCustomer";
+            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).ToListAsync();
+
+            ViewData["categories"] = await _context.Loaisaches
+                .Select(nxb => new SelectListItem
+                {
+                    Value = nxb.Id.ToString(),
+                    Text = nxb.Ten
+                })
+                .ToListAsync();
+
+            return View("/Views/Customer/Home.cshtml", books);
+        }
+
+        public async Task<IActionResult> Detail(long id)
+        {
+            ViewData["Layout"] = "_LayoutCustomer";
+            var book = await _context.Saches
+                .Include(s => s.Tacgia)
+                .Include(s => s.Loaisach)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View("Views/Customer/Detail.cshtml", book);
         }
 
         public IActionResult Privacy()
@@ -48,7 +73,7 @@ namespace tiemsach.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    
+
 
 
         [HttpGet]
@@ -125,9 +150,11 @@ namespace tiemsach.Controllers
         {
             ViewData["Layout"] = "_LayoutCustomer";
             ViewBag.ReturnUrl = ReturnUrl;
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 var nguoiDung = _context.Nguoidungs.SingleOrDefault(kh => kh.Email == model.Email);
-                if (nguoiDung == null) {
+                if (nguoiDung == null)
+                {
                     ModelState.AddModelError("loi", "Khong tim thay tai khoan");
                 }
                 else
@@ -138,7 +165,7 @@ namespace tiemsach.Controllers
                     }
                     else
                     {
-                        if(nguoiDung.Password != model.Password)
+                        if (nguoiDung.Password != model.Password)
                         {
                             ModelState.AddModelError("loi", "Sai mat khau");
                         }
@@ -162,16 +189,16 @@ namespace tiemsach.Controllers
                             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                             await HttpContext.SignInAsync(claimsPrincipal);
-                          
 
 
 
-                             if (nguoiDung.Vaitro == false)
+
+                            if (nguoiDung.Vaitro == false)
                             {
                                 // Set the layout for Customer
                                 //ViewData["Layout"] = "~/Views/Shared/_LayoutCustomer.cshtml";
                                 ViewData["Layout"] = "_LayoutCustomer";
-                                return RedirectToAction("Index", "Home"); 
+                                return RedirectToAction("Index", "Home");
                             }
 
 
@@ -190,21 +217,20 @@ namespace tiemsach.Controllers
                         }
                     }
                 }
-            
+
             }
             return View("/Views/Shared/_Login.cshtml");
         }
 
-		[Authorize]
-		public async Task<IActionResult> DangXuat()
-		{
-			await HttpContext.SignOutAsync();
+        [Authorize]
+        public async Task<IActionResult> DangXuat()
+        {
+            await HttpContext.SignOutAsync();
             return Redirect("/");
         }
 
 
-		
 
-	}
+    }
 
 }

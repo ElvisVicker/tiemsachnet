@@ -1,0 +1,71 @@
+﻿@model tiemsach.Data.Sach
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Sach</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Tên:
+        </dt>
+        <dt class="col-sm-2">
+            Loại sách:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Loaisach.Ten)
+        </dd>
+        <dt class="col-sm-2">
+            Tác giả:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tacgia.Ten)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ten)
+        </dd>
+        <dt class="col-sm-2">
+            Hình ảnh:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+        <dt class="col-sm-2">
+            Giá nhập:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Gianhap)
+        </dd>
+        <dt class="col-sm-2">
+            Giá xuất:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Giaxuat)
+        </dd>
+        <dt class="col-sm-2">
+            Mô tả:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Mota)
+        </dd>
+        <dt class="col-sm-2">
+            Số lượng:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Soluong)
+        </dd>
+        <dt class="col-sm-2">
+            Tình trạng:
+        </dt>
+        <dd class="col-sm-10">
+            Đang bán
+        </dd>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a> |
+    <a asp-action="Index">Quay về danh sách</a>
+</div>

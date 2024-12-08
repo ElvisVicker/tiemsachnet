@@ -45,6 +45,7 @@ namespace tiemsach.Controllers
         // GET: Nxbs/Create
         public IActionResult Create()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View();
         }
 
@@ -55,6 +56,8 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Ten,Diachi,Tinhtrang")] Nxb nxb)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
+            nxb.Tinhtrang = true;
             if (ModelState.IsValid)
             {
                 _context.Add(nxb);
@@ -67,6 +70,7 @@ namespace tiemsach.Controllers
         // GET: Nxbs/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -89,6 +93,7 @@ namespace tiemsach.Controllers
         {
             if (id != nxb.Id)
             {
+                ViewData["Layout"] = "_LayoutAdmin";
                 return NotFound();
             }
 
@@ -96,6 +101,7 @@ namespace tiemsach.Controllers
             {
                 try
                 {
+                    nxb.Tinhtrang = true;
                     _context.Update(nxb);
                     await _context.SaveChangesAsync();
                 }
@@ -118,6 +124,7 @@ namespace tiemsach.Controllers
         // GET: Nxbs/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -138,10 +145,28 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var nxb = await _context.Nxbs.FindAsync(id);
             if (nxb != null)
             {
-                _context.Nxbs.Remove(nxb);
+                try
+                {
+                    nxb.Tinhtrang = false;
+                    _context.Update(nxb);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!NxbExists(nxb.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
 
             await _context.SaveChangesAsync();
