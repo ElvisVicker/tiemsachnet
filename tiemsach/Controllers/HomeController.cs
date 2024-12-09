@@ -1,4 +1,3 @@
-﻿
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using tiemsach.Models;
@@ -35,7 +34,7 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Layout"] = "_LayoutCustomer";
-            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).ToListAsync();
+            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).Where(s => s.Soluong > 0).ToListAsync();
 
             ViewData["categories"] = await _context.Loaisaches
                 .Select(nxb => new SelectListItem
@@ -136,55 +135,6 @@ namespace tiemsach.Controllers
             return Register();
         }
 
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DangKy([Bind("Hoten,Gioitinh,Sodienthoai,Email,Password")] Nguoidung nguoidung, 
-        //    [Bind("DiachiId")] Khachhang khachhang,long diaChiId)
-        //{
-        //    ViewData["Layout"] = "_LayoutCustomer";
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        Console.WriteLine(ModelState.IsValid);
-        //        return Register();
-        //    }
-
-        //    if (nguoidung != null)
-        //        {
-        //            nguoidung.QuyenId = 5;
-        //            nguoidung.Vaitro = false;
-        //            nguoidung.Tinhtrang = true;
-        //            nguoidung.CreatedAt = DateTime.Now;
-        //            _context.Add(nguoidung);
-        //            await _context.SaveChangesAsync();
-        //        }
-
-        //        if (khachhang != null)
-        //        {
-        //            khachhang.Id = nguoidung.Id;
-        //            khachhang.DiachiId = diaChiId;
-        //            khachhang.Tinhtrang = true;
-        //            khachhang.CreatedAt = DateTime.Now;
-
-
-        //            _context.Khachhangs.Add(khachhang);
-        //            await _context.SaveChangesAsync();
-        //        }
-
-        //        return View("/Views/Shared/_Login.cshtml");
-
-
-
-
-
-
-
-        //}
-
-
-
         [HttpGet]
         public IActionResult Login(string? ReturnUrl)
         {
@@ -223,12 +173,18 @@ namespace tiemsach.Controllers
                         {
                             var claims = new List<Claim>
                             {
+                
                                 new Claim(ClaimTypes.Email, nguoiDung.Email),
                                 new Claim(ClaimTypes.Name, nguoiDung.Hoten),
-
-                                  new Claim("ID", nguoiDung.Id.ToString()),
-                                new Claim(ClaimTypes.Role, "Customer")
+								
+								new Claim("Vaitro", nguoiDung.Vaitro.ToString()),
+                                new Claim("ID", nguoiDung.Id.ToString()),
+                                new Claim(ClaimTypes.Role, nguoiDung.Vaitro ? "true" : "false")
                             };
+
+
+
+
 
 
                             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -271,28 +227,14 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> DangXuat()
         {
             await HttpContext.SignOutAsync();
+
+            Response.Cookies.Delete("Cart");
+
+
             return Redirect("/");
         }
 
 
-        //      [Authorize]
-        //[HttpPost]
-        //public async Task<IActionResult> DangXuat()
-        //{
-        //	// Sign out the user
-        //	await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        //	// Clear all cookies
-        //	var cookies = HttpContext.Request.Cookies;
-        //	foreach (var cookie in cookies)
-        //	{
-
-        //		HttpContext.Response.Cookies.Delete(cookie.Key);
-        //	}
-
-        //	// Redirect to the home page or login page after logout
-        //	return RedirectToAction("Index", "Home");
-        //}
 
     }
 

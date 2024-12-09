@@ -1,0 +1,50 @@
+﻿@model IEnumerable<tiemsach.Data.Nxb>
+
+@{
+    ViewData["Title"] = "Danh sách nhà xuất bản";
+}
+
+<h1>DANH SÁCH</h1>
+
+<p>
+    <a asp-action="Create">TẠO MỚI</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tên
+            </th>
+            <th>
+                Địa chỉ
+            <th>
+                Tình trạng
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        if (item.Tinhtrang == true){
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ten)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Diachi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tinhtrang)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+
+        }
+
+}
+    </tbody>
+</table>

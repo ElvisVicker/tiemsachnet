@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace tiemsach.Data;
 
 public partial class Nguoidung
 {
     public long Id { get; set; }
-
+    [Required(ErrorMessage = "The Quyen field is required.")]
     public long QuyenId { get; set; }
 
     public string Hoten { get; set; } = null!;

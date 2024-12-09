@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using tiemsach.Data;
+using tiemsach.ViewModels;
 
 namespace tiemsach.Controllers
 {
@@ -26,6 +27,7 @@ namespace tiemsach.Controllers
             var tiemsachContext = _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia);
             return View(await tiemsachContext.ToListAsync());
         }
+
 
         // GET: Saches/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -62,27 +64,62 @@ namespace tiemsach.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind(",Ten,Image,Mota,TacgiaId,LoaisachId")] Sach sach)
+        public async Task<IActionResult> Create(SachVM sachModel)
         {
             ViewData["Layout"] = "_LayoutAdmin";
+
             sach.Soluong = 0;
             sach.Gianhap = 0;
             sach.Giaxuat = 0;
 
-            sach.Tinhtrang = true;
+
+            if (sachModel.Image == null || sachModel.Image.Length == 0)
+            {
+                ModelState.AddModelError("Image", "Bắt buộc phải có ảnh");
+            }
 
             if (ModelState.IsValid)
             {
-                _context.Add(sach);
+                string filePath = null;
+
+                if (sachModel.Image != null)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Customer/images");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + sachModel.Image.FileName;
+                    filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await sachModel.Image.CopyToAsync(fileStream);
+                    }
+                }
+                var sach = new Sach
+                {
+                    Ten = sachModel.Ten,
+                    Image = Path.GetFileName(filePath),
+                    TacgiaId = sachModel.TacgiaId,
+                    LoaisachId = sachModel.LoaisachId,
+                    Mota = sachModel.Mota,
+                    Tinhtrang = false,
+                    Gianhap = 0,
+                    Giaxuat = 0
+                };
+
+                _context.Saches.Add(sach);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Sách đã được tạo thành công!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData["ErrorMessage"] = "Đã xảy ra lỗi, vui lòng kiểm tra lại!";
-            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
-            return View(sach);
+            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sachModel.LoaisachId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sachModel.TacgiaId);
+            return View(sachModel);
         }
+
 
         // GET: Saches/Edit/5
         public async Task<IActionResult> Edit(long? id)
@@ -98,9 +135,22 @@ namespace tiemsach.Controllers
             {
                 return NotFound();
             }
+
+            var sachVM = new EditSachVM
+            {
+                Ten = sach.Ten,
+                Mota = sach.Mota,
+                Gianhap = sach.Gianhap,
+                Giaxuat = sach.Giaxuat,
+                TacgiaId = sach.TacgiaId,
+                LoaisachId = sach.LoaisachId,
+                Tinhtrang = sach.Tinhtrang,
+                ImageName = sach.Image,
+                Soluong = sach.Soluong
+            };
             ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
             ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
-            return View(sach);
+            return View(sachVM);
         }
 
         // POST: Saches/Edit/5
@@ -108,20 +158,55 @@ namespace tiemsach.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Image,Gianhap,Giaxuat,Mota,Soluong,Tinhtrang,TacgiaId,LoaisachId")] Sach sach)
+        public async Task<IActionResult> Edit(long id, EditSachVM sachModel)
         {
             ViewData["Layout"] = "_LayoutAdmin";
+
             if (id != sach.Id)
+
+            Console.WriteLine("hello");
+            ModelState.Clear();
+            Console.WriteLine(id);
+            var sach = await _context.Saches.FindAsync(id);
+            if (sach == null)
+
             {
                 return NotFound();
             }
-
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(sach); // Thêm đối tượng vào context
+                    string filePath = null;
+
+                    if (sachModel.Image != null)
+                    {
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Customer/images");
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + sachModel.Image.FileName;
+                        filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await sachModel.Image.CopyToAsync(fileStream);
+                        }
+                        sach.Image = Path.GetFileName(filePath);
+                    }
+                    sach.Ten = sachModel.Ten;
+                    sach.Mota = sachModel.Mota;
+                    sach.Gianhap = sachModel.Gianhap;
+                    sach.Giaxuat = sachModel.Giaxuat;
+                    sach.TacgiaId = sachModel.TacgiaId;
+                    sach.LoaisachId = sachModel.LoaisachId;
+                    sach.Tinhtrang = sachModel.Tinhtrang;
+                    sach.Soluong = sachModel.Soluong;
+
+                    _context.Update(sach); // Thêm đối tượng vào context
                     await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
                     return RedirectToAction(nameof(Index)); // Chuyển hướng về trang danh sách
                 }
@@ -139,6 +224,7 @@ namespace tiemsach.Controllers
         // GET: Saches/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -161,10 +247,22 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var sach = await _context.Saches.FindAsync(id);
             if (sach != null)
             {
-                _context.Saches.Remove(sach);
+                try
+                {
+                    sach.Tinhtrang = false;
+                    _context.Update(sach); // Thêm đối tượng vào context
+                    await _context.SaveChangesAsync(); // Lưu vào cơ sở dữ liệu
+                    return RedirectToAction(nameof(Index)); // Chuyển hướng về trang danh sách
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi lưu trữ nếu có
+                    ModelState.AddModelError("", "Không thể lưu dữ liệu. Lỗi: " + ex.Message);
+                }
             }
 
             await _context.SaveChangesAsync();
