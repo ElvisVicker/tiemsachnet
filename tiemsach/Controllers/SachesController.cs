@@ -28,28 +28,6 @@ namespace tiemsach.Controllers
             return View(await tiemsachContext.ToListAsync());
         }
 
-
-        // GET: Saches/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            ViewData["Layout"] = "_LayoutAdmin";
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var sach = await _context.Saches
-                .Include(s => s.Loaisach)
-                .Include(s => s.Tacgia)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (sach == null)
-            {
-                return NotFound();
-            }
-
-            return View(sach);
-        }
-
         // GET: Saches/Create
         public IActionResult Create()
         {
@@ -67,11 +45,6 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Create(SachVM sachModel)
         {
             ViewData["Layout"] = "_LayoutAdmin";
-
-            sach.Soluong = 0;
-            sach.Gianhap = 0;
-            sach.Giaxuat = 0;
-
 
             if (sachModel.Image == null || sachModel.Image.Length == 0)
             {
@@ -161,15 +134,11 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Edit(long id, EditSachVM sachModel)
         {
             ViewData["Layout"] = "_LayoutAdmin";
-
-            if (id != sach.Id)
-
             Console.WriteLine("hello");
             ModelState.Clear();
             Console.WriteLine(id);
             var sach = await _context.Saches.FindAsync(id);
             if (sach == null)
-
             {
                 return NotFound();
             }

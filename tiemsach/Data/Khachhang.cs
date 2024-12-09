@@ -19,7 +19,7 @@ public partial class Khachhang
 
     public virtual Diachi Diachi { get; set; } = null!;
 
-    public virtual Nguoidung? IdNavigation { get; set; } = null!;
+    public virtual Nguoidung IdNavigation { get; set; } = null!;
 
     public virtual ICollection<Phieuxuat> Phieuxuats { get; set; } = new List<Phieuxuat>();
 }
