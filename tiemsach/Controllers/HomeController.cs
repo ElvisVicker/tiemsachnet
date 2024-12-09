@@ -34,7 +34,7 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Layout"] = "_LayoutCustomer";
-            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).ToListAsync();
+            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).Where(s => s.Soluong > 0).ToListAsync();
 
             ViewData["categories"] = await _context.Loaisaches
                 .Select(nxb => new SelectListItem
@@ -176,7 +176,8 @@ namespace tiemsach.Controllers
                 
                                 new Claim(ClaimTypes.Email, nguoiDung.Email),
                                 new Claim(ClaimTypes.Name, nguoiDung.Hoten),
-                                new Claim("Vaitro", nguoiDung.Vaitro.ToString()),
+								
+								new Claim("Vaitro", nguoiDung.Vaitro.ToString()),
                                 new Claim("ID", nguoiDung.Id.ToString()),
                                 new Claim(ClaimTypes.Role, nguoiDung.Vaitro ? "true" : "false")
                             };
@@ -226,6 +227,10 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> DangXuat()
         {
             await HttpContext.SignOutAsync();
+
+            Response.Cookies.Delete("Cart");
+
+
             return Redirect("/");
         }
 
