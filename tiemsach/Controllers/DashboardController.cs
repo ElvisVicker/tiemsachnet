@@ -31,8 +31,8 @@ namespace tiemsach.Controllers
             var ctpx = _context.Chitietphieuxuats.ToList();
 
             var TotalProfit = ctpx.Sum(ct => ct.Soluong * ct.Giaxuat) == null ? 0.0 : ctpx.Sum(ct => ct.Soluong * ct.Giaxuat);
-          
-          
+
+
             var TotalKH = kh.Count;
             var TotalNV = nv.Count;
             var TotalSach = s.Count;
@@ -62,7 +62,7 @@ namespace tiemsach.Controllers
 
             var viewModel = new DashboardVM
             {
-                TotalKH= TotalKH,
+                TotalKH = TotalKH,
                 TotalNV = TotalNV,
                 TotalSach = TotalSach,
                 TotalProfit = TotalProfit,
