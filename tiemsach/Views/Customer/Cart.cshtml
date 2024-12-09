@@ -1,0 +1,70 @@
+﻿@model tiemsach.ViewModels.CartViewModel
+@if (TempData["ErrorMessage"] != null)
+{
+        <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+        </div>
+}
+
+
+<div class="container">
+    <h2>Your Shopping Cart</h2>
+    @if (Model.Items.Count == 0)
+    {
+            <p>Your cart is empty.</p>
+    }
+    else
+    {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ten sach</th>
+                        <th>So luong</th>
+                        <th>Gia</th>
+                        <th>Tong</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Items)
+                {
+
+                  var book = Model.Items.FirstOrDefault(b => b.Id == item.Id);
+               
+                  <tr>
+                           <td>@item.TenSach</td>
+                            <td>@item.SoLuong</td>
+                                  <td>@item.GiaXuat</td>
+                                          <td>@(item.SoLuong * item.GiaXuat) VND</td>
+                             </tr>
+                           
+                }
+                </tbody>
+            </table>
+                <h4>Total Price: @Model.TotalPrice VND</h4>
+    }
+
+
+
+    <div style="display:flex; gap:10px;">
+
+
+
+<form asp-action="CreatePhieuXuat" method="post">
+        <input type="hidden" name="KhachhangId" value="@User.FindFirst("ID")?.Value"/>
+
+        <button type="submit" class="btn btn-primary">Checkout</button>
+
+</form>
+
+<!-- Clear Cart Button -->
+<form asp-action="ClearCart" method="post">
+    <button type="submit" class="btn btn-danger">Clear Cart</button>
+</form>
+</div>
+</div>
+
+
+
+
+<!-- Checkout Form -->
+

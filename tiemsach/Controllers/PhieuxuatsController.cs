@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using tiemsach.Data;
+using tiemsach.ViewModels;
 
 namespace tiemsach.Controllers
 {
@@ -114,13 +115,13 @@ namespace tiemsach.Controllers
 
 			updatePhieuXuat.UpdatedAt = DateTime.Now;
 			updatePhieuXuat.Tinhtrang = phieuxuat.Tinhtrang;
+            updatePhieuXuat.NhanvienId = Convert.ToInt64(User.FindFirst("ID")?.Value);
 
 
 
 
 
-
-			await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
 
 
@@ -260,5 +261,23 @@ namespace tiemsach.Controllers
             ViewData["Layout"] = "_LayoutAdmin";
             return _context.Phieuxuats.Any(e => e.Id == id);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
