@@ -1,0 +1,136 @@
+﻿@model tiemsach.ViewModels.NhanVien_ViewModel
+
+@{
+    ViewData["Title"] = "Create Employee";
+    <!-- Include CSS -->
+    <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css"/>
+    <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css"/>
+    <link rel="stylesheet" href="../../css/style.css"/>
+}
+
+<div class="container-fluid page-body-wrapper">
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Create New Employee</h4>
+                            <p class="card-description">Fill in the employee details below:</p>
+                            <form asp-action="Create" class="forms-sample">
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <!-- Full Name -->
+                                <div class="form-group">
+                                    <label asp-for="hoten">Full Name</label>
+                                    <input asp-for="hoten" class="form-control" />
+                                    <span asp-validation-for="hoten" class="text-danger"></span>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label asp-for="email">Email</label>
+                                    <input asp-for="email" class="form-control" />
+                                    <span asp-validation-for="email" class="text-danger"></span>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-group">
+                                    <label asp-for="password">Password</label>
+                                    <input asp-for="password" type="password" class="form-control" />
+                                    <span asp-validation-for="password" class="text-danger"></span>
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div class="form-group">
+                                    <label asp-for="confirm_password">Confirm Password</label>
+                                    <input asp-for="confirm_password" type="password" class="form-control" />
+                                    <span asp-validation-for="confirm_password" class="text-danger"></span>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="form-group">
+                                    <label asp-for="diachi">Address</label>
+                                    <input asp-for="diachi" class="form-control" />
+                                    <span asp-validation-for="diachi" class="text-danger"></span>
+                                </div>
+
+                                <!-- Phone Number -->
+                                <div class="form-group">
+                                    <label asp-for="sodienthoai">Phone Number</label>
+                                    <input asp-for="sodienthoai" class="form-control" />
+                                    <span asp-validation-for="sodienthoai" class="text-danger"></span>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="form-group">
+                                    <label asp-for="gioitinh">Gender</label>
+                                    <div class="form-check form-check-primary">
+                                        <input class="form-check-input" type="radio" asp-for="gioitinh" value="true" id="male" />
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-primary">
+                                        <input class="form-check-input" type="radio" asp-for="gioitinh" value="false" id="female" />
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                    <span asp-validation-for="gioitinh" class="text-danger"></span>
+                                </div>
+
+                                <!-- Image -->
+                                <div class="form-group">
+                                    <label asp-for="image">Image</label>
+                                    <input asp-for="image" class="form-control file-upload-info" type="file" placeholder="@Model.image" />
+                                    <span asp-validation-for="image" class="text-danger"></span>
+                                </div>
+
+                                <!-- Account Role -->
+                                <div class="form-group">
+                                    <label asp-for="quyen_id">Account Role</label>
+                                    <select asp-for="quyen_id" class="form-control">
+                                        <option value="">-- Select role --</option>
+                                        @foreach (var item in @Model.Quyens)
+                                        {
+                                            <option value="@item.Id">@item.Id - @item.Ten</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="quyen_id" class="text-danger"></span>
+                                </div>
+
+                                <!-- Position -->
+                                <div class="form-group">
+                                    <label asp-for="vitri">Position</label>
+                                    <input asp-for="vitri" class="form-control" />
+                                    <span asp-validation-for="vitri" class="text-danger"></span>
+                                </div>
+
+                                <input type="hidden" asp-for="created_at" value="@DateTime.UtcNow" />
+                                <input type="hidden" asp-for="updated_at" value="" />
+                                <input type="hidden" asp-for="Quyens" value="@Model.Quyens" />
+
+                                <!-- Submit and Cancel Buttons -->
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary me-2">Save</button>
+                                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2023 Company Name</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="../../vendors/base/vendor.bundle.base.js"></script>
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
+    <script src="../../js/file-upload.js"></script>
+}
