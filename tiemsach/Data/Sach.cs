@@ -12,6 +12,9 @@ public partial class Sach
     [StringLength(255, ErrorMessage = "Tên sách không được quá 255 ký tự")]
     public string Ten { get; set; } = null!;
 
+
+    //[Required(ErrorMessage = "Không được bỏ trống hình ảnh!")]
+
     public string Image { get; set; } = null!;
     public double Gianhap { get; set; } = 0;
 
