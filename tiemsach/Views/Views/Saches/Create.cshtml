@@ -1,4 +1,4 @@
-﻿@model tiemsach.Data.Sach
+@model tiemsach.Data.Sach
 
 @{
     ViewData["Title"] = "Tạo sách";
@@ -19,13 +19,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label">Hình ảnh:</label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="Image" class="form-control" hidden />
+
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TacgiaId" class="control-label">
                     Tác giả<: /label>
                         <select asp-for="TacgiaId" class="form-control" asp-items="ViewBag.TacgiaId"></select>
+                </label>
             </div>
             <div class="form-group">
                 <label asp-for="LoaisachId" class="control-label">Loại sách:</label>
@@ -49,7 +51,9 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
 @{
     var successMessage = TempData["SuccessMessage"] as string;
@@ -58,14 +62,14 @@
 
 @if (!string.IsNullOrEmpty(successMessage))
 {
-    <div class="alert alert-success">
+            <div class="alert alert-success">
         @successMessage
-    </div>
+            </div>
 }
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
-    <div class="alert alert-danger">
+            <div class="alert alert-danger">
         @errorMessage
-    </div>
+            </div>
 }
