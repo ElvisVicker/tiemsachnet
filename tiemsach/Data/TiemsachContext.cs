@@ -185,7 +185,7 @@ public partial class TiemsachContext : DbContext
         modelBuilder.Entity<Khachhang>(entity =>
         {
             entity.ToTable("khachhang");
-            //entity.HasNoKey();
+
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
@@ -288,10 +288,10 @@ public partial class TiemsachContext : DbContext
         modelBuilder.Entity<Nhanvien>(entity =>
         {
             entity.ToTable("nhanvien");
-            //entity.HasNoKey();
+
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
-                .HasColumnName("nguoidung_id");
+                .HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
