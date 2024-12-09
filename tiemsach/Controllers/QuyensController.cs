@@ -21,6 +21,7 @@ namespace tiemsach.Controllers
         // GET: Quyens
         public async Task<IActionResult> Index()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View(await _context.Quyens.ToListAsync());
         }
 
@@ -45,6 +46,7 @@ namespace tiemsach.Controllers
         // GET: Quyens/Create
         public IActionResult Create()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View();
         }
 
@@ -55,6 +57,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Ten,Tinhtrang,DeletedAt,CreatedAt,UpdatedAt,Cnnguoidung,Cntacgia,Cnloaisach,Cnsach,Cnquyen,Cnnhap,Cnxuat,Cnnxb")] Quyen quyen)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (ModelState.IsValid)
             {
                 _context.Add(quyen);
@@ -67,6 +70,7 @@ namespace tiemsach.Controllers
         // GET: Quyens/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -87,6 +91,7 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Tinhtrang,DeletedAt,CreatedAt,UpdatedAt,Cnnguoidung,Cntacgia,Cnloaisach,Cnsach,Cnquyen,Cnnhap,Cnxuat,Cnnxb")] Quyen quyen)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id != quyen.Id)
             {
                 return NotFound();
