@@ -1,59 +1,43 @@
 ﻿@model tiemsach.Data.Tacgia
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Sửa tác giả";
 }
 
-<h1>Edit</h1>
+<h2>Sửa tác giả</h2>
 
-<h4>Tacgia</h4>
+<h4>Nội dung</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Ten" class="control-label"></label>
+                <label asp-for="Ten" class="control-label">Tên tác giả</label>
                 <input asp-for="Ten" class="form-control" />
                 <span asp-validation-for="Ten" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Tinhtrang" /> @Html.DisplayNameFor(model => model.Tinhtrang)
+                <label class="form-check-label">Hoạt động
+                    <input class="form-check-input" asp-for="Tinhtrang" />
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Namsinh" class="control-label"></label>
+                <label asp-for="Namsinh" class="control-label">Năm sinh</label>
                 <input asp-for="Namsinh" class="form-control" />
                 <span asp-validation-for="Namsinh" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-light">Quay lại danh sách</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

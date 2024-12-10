@@ -18,15 +18,15 @@ namespace tiemsach.Controllers
             _context = context;
         }
 
-        // GET: Loaisaches
         public async Task<IActionResult> Index()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View(await _context.Loaisaches.ToListAsync());
         }
 
-        // GET: Loaisaches/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -42,31 +42,32 @@ namespace tiemsach.Controllers
             return View(loaisach);
         }
 
-        // GET: Loaisaches/Create
         public IActionResult Create()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View();
         }
 
-        // POST: Loaisaches/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ten,Tinhtrang,DeletedAt,CreatedAt,UpdatedAt")] Loaisach loaisach)
+        public async Task<IActionResult> Create([Bind("Id,Ten")] Loaisach loaisach)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (ModelState.IsValid)
             {
+                loaisach.Tinhtrang = true;
+                loaisach.CreatedAt = DateTime.Now;
                 _context.Add(loaisach);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Loại sách đã được tạo thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(loaisach);
         }
 
-        // GET: Loaisaches/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -80,13 +81,11 @@ namespace tiemsach.Controllers
             return View(loaisach);
         }
 
-        // POST: Loaisaches/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Tinhtrang,DeletedAt,CreatedAt,UpdatedAt")] Loaisach loaisach)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Tinhtrang")] Loaisach loaisach)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id != loaisach.Id)
             {
                 return NotFound();
@@ -96,8 +95,11 @@ namespace tiemsach.Controllers
             {
                 try
                 {
+                    loaisach.UpdatedAt = DateTime.Now;
                     _context.Update(loaisach);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Loại sách đã được cập nhật thành công!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -110,14 +112,13 @@ namespace tiemsach.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(loaisach);
         }
 
-        // GET: Loaisaches/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -133,18 +134,29 @@ namespace tiemsach.Controllers
             return View(loaisach);
         }
 
-        // POST: Loaisaches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var loaisach = await _context.Loaisaches.FindAsync(id);
             if (loaisach != null)
             {
-                _context.Loaisaches.Remove(loaisach);
-            }
+                try
+                {
+                    loaisach.Tinhtrang = false;
+                    loaisach.DeletedAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+                    _context.Update(loaisach);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Loại sách đã được ẩn thành công!";
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Không thể xóa dữ liệu. Lỗi: " + ex.Message);
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
 
