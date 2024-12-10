@@ -1,31 +1,31 @@
 ﻿@model IEnumerable<tiemsach.Data.Nxb>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách nhà xuất bản";
 }
 
-<h1>Index</h1>
+<h1>DANH SÁCH</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">TẠO MỚI</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Ten)
+                Tên
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Diachi)
-            </th>
+                Địa chỉ
             <th>
-                @Html.DisplayNameFor(model => model.Tinhtrang)
+                Tình trạng
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
+        if (item.Tinhtrang == true){
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Ten)
@@ -42,6 +42,9 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
+
+        }
+
 }
     </tbody>
 </table>

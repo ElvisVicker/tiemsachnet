@@ -1,75 +1,75 @@
 ﻿@model tiemsach.Data.Sach
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Xóa sách";
 }
 
-<h1>Delete</h1>
+<h1>XÓA</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Bạn chắc chắn muốn xóa sách này?</h3>
 <div>
-    <h4>Sach</h4>
+    <h4>Sách</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ten)
+        <dt class="col-sm-2">
+            Tên:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ten)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
+        <dt class="col-sm-2">
+            Loại sách:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gianhap)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gianhap)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Giaxuat)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Giaxuat)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mota)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mota)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Soluong)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Soluong)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tinhtrang)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tinhtrang)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Loaisach)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Loaisach.Ten)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tacgia)
+        <dt class="col-sm-2">
+            Tác giả:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tacgia.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tacgia.Ten)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ten)
+        </dd>
+        <dt class="col-sm-2">
+            Hình ảnh:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+        <dt class="col-sm-2">
+            Giá nhập:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Gianhap)
+        </dd>
+        <dt class="col-sm-2">
+            Giá xuất:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Giaxuat)
+        </dd>
+        <dt class="col-sm-2">
+            Mô tả:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Mota)
+        </dd>
+        <dt class="col-sm-2">
+            Số lượng:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Soluong)
+        </dd>
+        <dt class="col-sm-2">
+            Tình trạng:
+        </dt>
+        <dd class="col-sm-10">
+            Đang bán
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="XÓA" class="btn btn-danger" /> |
+        <a asp-action="Index">Quay về danh sách</a>
     </form>
 </div>
