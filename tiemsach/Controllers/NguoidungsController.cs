@@ -25,7 +25,8 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Layout"] = "_LayoutAdmin";
-            var tiemsachContext = _context.Nguoidungs.Include(n => n.Quyen);
+            //var tiemsachContext = _context.Nguoidungs.Include(n => n.Quyen);
+            var tiemsachContext = _context.Nguoidungs.Include(n => n.Quyen).Where(q => q.Id != 22);
             return View(await tiemsachContext.ToListAsync());
         }
 
@@ -78,16 +79,13 @@ namespace tiemsach.Controllers
             Console.WriteLine($"Received id: {id}");
             if (id == null)
             {
-                Console.WriteLine("1");
                 return NotFound();
             }
-            Console.WriteLine("2");
-
+      
             ViewData["Layout"] = "_LayoutAdmin";
             var nguoidung = await _context.Nguoidungs.FindAsync(id);
             if (nguoidung == null)
             {
-                Console.WriteLine("3");
                 return NotFound();
             }
             var nguoidungVM = new NguoiDungVM
@@ -108,9 +106,11 @@ namespace tiemsach.Controllers
                 DeletedAt = nguoidung.DeletedAt,
             };
             Console.WriteLine("4");
-            ViewData["QuyenId"] = new SelectList(_context.Quyens, "Id", "Id", nguoidung.QuyenId);
+            //ViewData["QuyenId"] = new SelectList(_context.Quyens, "Id", "Id", nguoidung.QuyenId);
             Console.WriteLine("QuyenId: " + nguoidung.QuyenId);
 
+
+            ViewData["QuyenId"] = new SelectList(_context.Quyens.Where(q => q.Id != 5), "Id", "Ten");
             return View(nguoidungVM);
         }
 
@@ -132,14 +132,14 @@ namespace tiemsach.Controllers
             var nguoidung = await _context.Nguoidungs.FindAsync(id);
             if (id != nguoidungVM.Id)
             {
-                Console.WriteLine("5");
+                
                 return NotFound();
             }
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Console.WriteLine("6");
+                  
                     string filePath = null;
 
                     if (nguoidungVM.ImageFile != null)
@@ -159,11 +159,30 @@ namespace tiemsach.Controllers
                         }
                         nguoidung.Image = Path.GetFileName(filePath);
                     }
+
+
+                 
+
+                    bool setVaiTro;
+                    long quyenChung;
+                    if (nguoidungVM.Vaitro == false)
+                    {
+                        quyenChung = 5;
+                        setVaiTro = false;
+                    }
+                    else
+                    {
+                        quyenChung = nguoidungVM.QuyenId;
+                        setVaiTro = true;
+                    }
+
+
+
                     nguoidung.Id = nguoidungVM.Id;
-                    nguoidung.QuyenId = nguoidungVM.QuyenId;
+                    nguoidung.QuyenId = quyenChung;
                     nguoidung.Hoten = nguoidungVM.Hoten;
                     nguoidung.Gioitinh = nguoidungVM.Gioitinh;
-                    nguoidung.Vaitro = nguoidungVM.Vaitro;
+                    nguoidung.Vaitro = setVaiTro;
                     nguoidung.Sodienthoai = nguoidungVM.Sodienthoai;
                     nguoidung.Diachi = nguoidungVM.Diachi;
                     nguoidung.Tinhtrang = nguoidungVM.Tinhtrang;
@@ -234,5 +253,138 @@ namespace tiemsach.Controllers
         {
             return _context.Nguoidungs.Any(e => e.Id == id);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult CreateKhachHang()
+        {
+            ViewData["Layout"] = "_LayoutAdmin";
+            ViewData["DiaChiId"] = new SelectList(_context.Diachis, "Id", "Ten");
+            return View("/Views/NguoiDungs/CreateKhachHang.cshtml");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateKH(RegisterVM registerVM, long diaChiId)
+        {
+            ViewData["Layout"] = "_LayoutAdmin";
+            // Check if the email already exists
+            var existingUser = await _context.Nguoidungs
+                .FirstOrDefaultAsync(u => u.Email == registerVM.Email);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Email", "Email is already in use.");
+            }
+            var diaChi = await _context.Diachis.FindAsync(diaChiId);
+            if (ModelState.IsValid)
+            {
+                // Create Nguoidung from RegisterVM
+                var nguoidung = new Nguoidung
+                {
+                    Hoten = registerVM.Hoten,
+                    Gioitinh = registerVM.Gioitinh,
+                    Sodienthoai = registerVM.Sodienthoai,
+                    Email = registerVM.Email,
+                    Password = registerVM.Password, // Consider hashing the password before saving
+                    QuyenId = 5,
+                    Diachi = diaChi.Ten,
+                    Vaitro = false,
+                    Tinhtrang = true,
+                    CreatedAt = DateTime.Now
+                };
+                _context.Add(nguoidung);
+                await _context.SaveChangesAsync();
+                // Create Khachhang
+                var khachhang = new Khachhang
+                {
+                    Id = nguoidung.Id,
+                    DiachiId = diaChiId,
+                    Tinhtrang = true,
+                    CreatedAt = DateTime.Now
+                };
+                _context.Khachhangs.Add(khachhang);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+
+            }
+            ViewData["DiaChiId"] = new SelectList(_context.Diachis, "Id", "Ten");
+            return CreateKhachHang();
+        }
+        [HttpGet]
+        public IActionResult CreateNhanVien()
+        {
+            ViewData["Layout"] = "_LayoutAdmin";
+            ViewData["QuyenId"] = new SelectList(_context.Quyens.Where(q => q.Id != 5), "Id", "Ten");
+            ViewData["DiaChiId"] = new SelectList(_context.Diachis, "Id", "Ten");
+            return View("/Views/NguoiDungs/CreateNhanVien.cshtml");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateNV(RegisterVM registerVM, long QuyenId, long diaChiId)
+        {
+            ViewData["Layout"] = "_LayoutAdmin";
+
+            var existingUser = await _context.Nguoidungs
+                .FirstOrDefaultAsync(u => u.Email == registerVM.Email);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Email", "Email is already in use.");
+            }
+            var diaChi = await _context.Diachis.FindAsync(diaChiId);
+            if (ModelState.IsValid)
+            {
+                // Create Nguoidung from RegisterVM
+                var nguoidung = new Nguoidung
+                {
+                    Hoten = registerVM.Hoten,
+                    Gioitinh = registerVM.Gioitinh,
+                    Sodienthoai = registerVM.Sodienthoai,
+                    Email = registerVM.Email,
+                    Password = registerVM.Password, // Consider hashing the password before saving
+                    QuyenId = QuyenId,
+                    Diachi = diaChi.Ten,
+                    Vaitro = true,
+                    Tinhtrang = true,
+                    CreatedAt = DateTime.Now
+                };
+                _context.Add(nguoidung);
+                await _context.SaveChangesAsync();
+                // Create Khachhang
+                var nhanvien = new Nhanvien
+                {
+                    Id = nguoidung.Id,
+                    Tinhtrang = true,
+                    Vitri = (QuyenId != 5 ? "Nhân viên" : ""),
+                    CreatedAt = DateTime.Now
+                };
+                _context.Nhanviens.Add(nhanvien);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["QuyenId"] = new SelectList(_context.Quyens.Where(q => q.Id != 5), "Id", "Ten");
+            ViewData["DiaChiId"] = new SelectList(_context.Diachis, "Id", "Ten");
+            return CreateKhachHang();
+        }
+
+
+
+
+
+
+
+
+
+
+
     }
 }

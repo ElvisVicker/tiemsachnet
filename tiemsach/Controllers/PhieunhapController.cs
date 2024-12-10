@@ -6,6 +6,7 @@ using tiemsach.Data;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class PhieunhapController : Controller
     {
         private readonly TiemsachContext _context;

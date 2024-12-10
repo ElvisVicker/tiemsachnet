@@ -14,6 +14,11 @@ namespace tiemsach.ViewModels
         [Required(ErrorMessage = "Nhập đầy đủ thông tin")]
         public bool Vaitro { get; set; }
         [Required(ErrorMessage = "Nhập đầy đủ thông tin")]
+
+
+
+
+        [RegularExpression(@"0[123456789]\d{8}", ErrorMessage = "Phone number invalid")]
         public string Sodienthoai { get; set; }
         public string? Diachi { get; set; }
         public bool Tinhtrang { get; set; }

@@ -8,7 +8,10 @@
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <span> <a href="Khachhangs" class="btn btn-inverse-primary btn-fw">Thêm khách hàng</a>  <a href="Nhanviens" class="btn btn-inverse-primary btn-fw">Thêm nhân viên</a></span>
+           
+                <span> <a asp-action="CreateKhachHang" class="btn btn-inverse-primary btn-fw">Thêm khách hàng</a> 
+                    <a asp-action="CreateNhanVien" class="btn btn-inverse-primary btn-fw">Thêm nhân viên</a></span>
+
             <div class="table-responsive pt-3">
                 <table class="table table-bordered">
                     <thead>
@@ -86,7 +89,16 @@
                 @Html.DisplayFor(modelItem => item.Diachi)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tinhtrang)
+ 
+                                    @if (item.Tinhtrang)
+                                    {
+                                                                <button type="button" class="btn btn-success">Hoat dong</button>
+                                    }
+                                    else
+                                    {
+                                                             <button type="button" class="btn btn-danger">Da Bi Khoa</button>
+                                    }
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Image)
@@ -110,9 +122,9 @@
                 @Html.DisplayFor(modelItem => item.Quyen.Ten)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                                    @* <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+               <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
             </td>
         </tr>
 }
