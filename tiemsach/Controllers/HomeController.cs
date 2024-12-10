@@ -34,7 +34,7 @@ namespace tiemsach.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Layout"] = "_LayoutCustomer";
-            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).Where(s => s.Soluong > 0).ToListAsync();
+            var books = await _context.Saches.Include(s => s.Loaisach).Include(s => s.Tacgia).Where(s => s.Soluong > 0 && s.Tinhtrang == true).ToListAsync();
 
             ViewData["categories"] = await _context.Loaisaches
                 .Select(nxb => new SelectListItem
