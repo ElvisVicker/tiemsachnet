@@ -117,8 +117,15 @@ namespace tiemsach.Controllers
 			updatePhieuXuat.Tinhtrang = phieuxuat.Tinhtrang;
             updatePhieuXuat.NhanvienId = Convert.ToInt64(User.FindFirst("ID")?.Value);
 
+
+
+
+
             await _context.SaveChangesAsync();
-          
+
+
+
+            
 
            ViewData["CTPXList"] = await _context.Chitietphieuxuats
                 .Where(c => c.PhieuxuatId == id)
