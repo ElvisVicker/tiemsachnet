@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<tiemsach.Data.Sach>
 
 @{
-    ViewData["Title"] = "Danh sách sách:;
+    ViewData["Title"] = "Index";
 }
 
 <div class="col-lg-12 grid-margin stretch-card">
@@ -68,12 +68,13 @@
                                     @Html.DisplayFor(modelItem => item.Soluong)
                                 </td>
                                 <td>
-                                    Đang bán
+                                    @Html.DisplayFor(modelItem => item.Tinhtrang)
+                                    @(item.Tinhtrang ? "Đang bán" : "Ngưng bán")
                                 </td>
 
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                 </td>
                             </tr>
                         }

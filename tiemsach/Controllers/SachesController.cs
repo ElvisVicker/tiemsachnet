@@ -32,8 +32,8 @@ namespace tiemsach.Controllers
         public IActionResult Create()
         {
             ViewData["Layout"] = "_LayoutAdmin";
-            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches.Where(ls => ls.Tinhtrang == true).ToList(), "Id", "Ten");
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia.Where(tg => tg.Tinhtrang == true), "Id", "Ten");
+            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten");
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten");
             return View();
         }
 
@@ -78,7 +78,7 @@ namespace tiemsach.Controllers
                     TacgiaId = sachModel.TacgiaId,
                     LoaisachId = sachModel.LoaisachId,
                     Mota = sachModel.Mota,
-                    Tinhtrang = true,
+                    Tinhtrang = false,
                     Gianhap = 0,
                     Giaxuat = 0
                 };
@@ -88,8 +88,8 @@ namespace tiemsach.Controllers
                 TempData["SuccessMessage"] = "Sách đã được tạo thành công!";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches.Where(ls => ls.Tinhtrang == true).ToList(), "Id", "Ten");
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia.Where(tg => tg.Tinhtrang == true), "Id", "Ten");
+            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sachModel.LoaisachId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sachModel.TacgiaId);
             return View(sachModel);
         }
 
@@ -121,8 +121,8 @@ namespace tiemsach.Controllers
                 ImageName = sach.Image,
                 Soluong = sach.Soluong
             };
-            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches.Where(ls => ls.Tinhtrang == true).ToList(), "Id", "Ten");
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia.Where(tg => tg.Tinhtrang == true), "Id", "Ten");
+            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
             return View(sachVM);
         }
 
@@ -185,8 +185,8 @@ namespace tiemsach.Controllers
                     ModelState.AddModelError("", "Không thể lưu dữ liệu. Lỗi: " + ex.Message);
                 }
             }
-            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches.Where(ls => ls.Tinhtrang == true).ToList(), "Id", "Ten");
-            ViewData["TacgiaId"] = new SelectList(_context.Tacgia.Where(tg => tg.Tinhtrang == true), "Id", "Ten");
+            ViewData["LoaisachId"] = new SelectList(_context.Loaisaches, "Id", "Ten", sach.LoaisachId);
+            ViewData["TacgiaId"] = new SelectList(_context.Tacgia, "Id", "Ten", sach.TacgiaId);
             return View(sach);
         }
 
