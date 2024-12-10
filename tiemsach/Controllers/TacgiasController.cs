@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using tiemsach.Data;
 
@@ -18,15 +17,15 @@ namespace tiemsach.Controllers
             _context = context;
         }
 
-        // GET: Tacgias
         public async Task<IActionResult> Index()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View(await _context.Tacgia.ToListAsync());
         }
 
-        // GET: Tacgias/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -42,31 +41,32 @@ namespace tiemsach.Controllers
             return View(tacgia);
         }
 
-        // GET: Tacgias/Create
         public IActionResult Create()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View();
         }
 
-        // POST: Tacgias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ten,Tinhtrang,DeletedAt,CreatedAt,UpdatedAt,Namsinh")] Tacgia tacgia)
+        public async Task<IActionResult> Create([Bind("Id,Ten,Namsinh")] Tacgia tacgia)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (ModelState.IsValid)
             {
+                tacgia.Tinhtrang = true;
+                tacgia.CreatedAt = DateTime.Now;
                 _context.Add(tacgia);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Tác giả đã được tạo thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(tacgia);
         }
 
-        // GET: Tacgias/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -80,13 +80,11 @@ namespace tiemsach.Controllers
             return View(tacgia);
         }
 
-        // POST: Tacgias/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Tinhtrang,DeletedAt,CreatedAt,UpdatedAt,Namsinh")] Tacgia tacgia)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Tinhtrang,Namsinh")] Tacgia tacgia)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id != tacgia.Id)
             {
                 return NotFound();
@@ -96,8 +94,11 @@ namespace tiemsach.Controllers
             {
                 try
                 {
+                    tacgia.UpdatedAt = DateTime.Now;
                     _context.Update(tacgia);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Tác giả đã được cập nhật thành công!";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -110,14 +111,13 @@ namespace tiemsach.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(tacgia);
         }
 
-        // GET: Tacgias/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -133,18 +133,29 @@ namespace tiemsach.Controllers
             return View(tacgia);
         }
 
-        // POST: Tacgias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             var tacgia = await _context.Tacgia.FindAsync(id);
             if (tacgia != null)
             {
-                _context.Tacgia.Remove(tacgia);
-            }
+                try
+                {
+                    tacgia.Tinhtrang = false;
+                    tacgia.DeletedAt = DateTime.Now;
 
-            await _context.SaveChangesAsync();
+                    _context.Update(tacgia);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Tác giả đã được ẩn thành công!";
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Không thể xóa dữ liệu. Lỗi: " + ex.Message);
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
 
