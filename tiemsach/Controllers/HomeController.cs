@@ -176,8 +176,8 @@ namespace tiemsach.Controllers
                 
                                 new Claim(ClaimTypes.Email, nguoiDung.Email),
                                 new Claim(ClaimTypes.Name, nguoiDung.Hoten),
-								
-								new Claim("Vaitro", nguoiDung.Vaitro.ToString()),
+                                new Claim(ClaimTypes.NameIdentifier, nguoiDung.Id.ToString()),
+                                new Claim("Vaitro", nguoiDung.Vaitro.ToString()),
                                 new Claim("ID", nguoiDung.Id.ToString()),
                                 new Claim(ClaimTypes.Role, nguoiDung.Vaitro ? "true" : "false")
                             };

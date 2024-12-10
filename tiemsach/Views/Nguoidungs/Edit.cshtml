@@ -4,6 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
+
+
+@*
 <h1>Edit</h1>
 <h4>Nguoidung</h4>
 <hr />
@@ -85,10 +88,102 @@
         </form>
     </div>
 </div>
+*@
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Thông tin nguoi dung</h4>
+            <form asp-action="Edit" method="post">
+                  <input type="hidden" asp-for="Id" />
+                @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@ 
+                <div class="form-group">
+
+                    <label asp-for="@Model.Hoten" class="control-label">Tên</label>
+                    <input asp-for="@Model.Hoten" class="form-control" />
+                </div>
+                      <div class="form-group">
+                    <label asp-for="@Model.Gioitinh" class="control-label">Gioi tinh</label>
+
+                    <input type="hidden" asp-for="@Model.Gioitinh" class="form-control" >
+                    <input readonly  class="form-control" value="@(Model.Gioitinh == true ? "Nam": "Nu")">
+                </div>
+
+
+                  <input type="hidden" class="form-check-input" asp-for="Vaitro" /> 
+
+                @if (Model.Vaitro == true)
+                {
+
+                 <div class="form-group">
+                    <label asp-for="QuyenId" class="control-label"></label>
+                    <select asp-for="QuyenId" class="form-control" asp-items="ViewBag.QuyenId"></select>
+
+                    <span asp-validation-for="QuyenId" class="text-danger"></span>
+                    </div>
+
+                }
+                else
+                {
+      
+
+                         <input type="hidden" asp-for="@Model.QuyenId" class="form-control" >
+
+                }
+
+
+
+
+                  <div class="form-group">
+                    <label asp-for="@Model.Sodienthoai" class="control-label">SDT</label>
+                    <input asp-for="@Model.Sodienthoai" class="form-control" />
+                     <span asp-validation-for="@Model.Sodienthoai" class="text-danger"></span>
+                </div>
+
+                   <div class="form-group">
+                    <label asp-for="@Model.Email" class="control-label">Email</label>
+                    <input asp-for="@Model.Email" class="form-control" readonly />
+                </div>
+                     <div class="form-group">
+                    <label asp-for="@Model.Password" class="control-label">Password</label>
+                    <input asp-for="@Model.Password" class="form-control" readonly />
+                </div>
+                     <div class="form-group">
+                    <label asp-for="@Model.Diachi" class="control-label">Dia Chi</label>
+                    <input asp-for="@Model.Diachi" class="form-control" readonly />
+                </div>
+                  <div class="form-group">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input"  for="Tinhtrang"  name="Tinhtrang" value="true" @(Model.Tinhtrang ? "checked" : "")   >
+                              Hoat Dong
+                            <i class="input-helper"></i></label>
+                          </div>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" for="Tinhtrang"  name="Tinhtrang" value="false"  @(!Model.Tinhtrang ? "checked" : "")>
+                           Da Bi Khoa
+                            <i class="input-helper"></i></label>
+                          </div>
+                        </div>
+            <div class="form-group" style="width: 40%;">
+                <label asp-for="ImageFile" class="control-label">Hình ảnh</label>
+                <input asp-for="ImageFile" type="file" class="form-control" id="file" hidden />
+                <div class="select-image">Chọn hình ảnh</div>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+
+
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn bnt-light">Back to List</a>
+                </div>
+            </form>
+        </div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

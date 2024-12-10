@@ -9,6 +9,7 @@ using tiemsach.Data;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class LoaisachesController : Controller
     {
         private readonly TiemsachContext _context;

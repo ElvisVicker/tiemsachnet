@@ -8,6 +8,7 @@ using tiemsach.Data;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class TacgiasController : Controller
     {
         private readonly TiemsachContext _context;
@@ -56,6 +57,7 @@ namespace tiemsach.Controllers
             {
                 tacgia.Tinhtrang = true;
                 tacgia.CreatedAt = DateTime.Now;
+                tacgia.UpdatedAt = DateTime.Now;
                 _context.Add(tacgia);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Tác giả đã được tạo thành công!";
@@ -94,6 +96,7 @@ namespace tiemsach.Controllers
             {
                 try
                 {
+                    tacgia.CreatedAt = tacgia.CreatedAt;
                     tacgia.UpdatedAt = DateTime.Now;
                     _context.Update(tacgia);
                     await _context.SaveChangesAsync();

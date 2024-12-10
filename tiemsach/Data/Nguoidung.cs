@@ -16,6 +16,7 @@ public partial class Nguoidung
 
     public bool Vaitro { get; set; }
 
+    [RegularExpression(@"0[123456789]\d{8}", ErrorMessage = "Phone number invalid")]
     public string Sodienthoai { get; set; } = null!;
 
     public string? Diachi { get; set; }

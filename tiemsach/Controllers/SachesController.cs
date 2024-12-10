@@ -11,6 +11,7 @@ using tiemsach.ViewModels;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class SachesController : Controller
     {
         private readonly TiemsachContext _context;

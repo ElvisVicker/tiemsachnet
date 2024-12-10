@@ -44,8 +44,8 @@ namespace tiemsach.Controllers
             var chartLabels = new List<string>();
             var chartData = new List<int>();
 
-            // Group by year or month and count
-            var groupedData = phieuxuatData.GroupBy(p => p.CreatedAt) // Adjust this based on your date property
+
+            var groupedData = phieuxuatData.GroupBy(p => p.CreatedAt)
                                             .Select(g => new
                                             {
                                                 Month = g.Key,

@@ -1,77 +1,121 @@
-﻿  <nav class="sidebar sidebar-offcanvas" id="sidebar">
+﻿
+@using tiemsach.Data
+@inject TiemsachContext _context
+@using System.Security.Claims
+@{
+    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var nguoidung = _context.Nguoidungs.FirstOrDefault(n => n.Id == Convert.ToInt64(userId));
+    var quyen = _context.Quyens.FirstOrDefault(n => n.Id == Convert.ToInt64(nguoidung.QuyenId));
+}
+
+
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Dashboard")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-         
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Dashboard")"  >
+                    <i class="ti-bar-chart menu-icon"></i>
+                  <span class="menu-title">Dashboard</span>
+                </a>
+              </li>
+             
+        @if (@quyen.Cntacgia == true)
+        {
+
+                  <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Tacgias")"  >
+                 <i class="ti-tag menu-icon"></i>
+                  <span class="menu-title">Tác giả</span>
+                </a>
+              </li>
+        }
+
+         @if (@quyen.Cnloaisach == true)
+        {
+
+               <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Loaisaches")"  >
+                <i class="ti-bookmark menu-icon"></i>
+                  <span class="menu-title">Loại sách</span>
+                </a>
+              </li>
+
+        }
 
 
-           <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Nhanvien")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Nhân viên</span>
-            </a>
-          </li>
+        @if (@quyen.Cnsach == true)
+        {
+                  <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Saches")"  >
+            <i class="ti-book menu-icon"></i>
+                  <span class="menu-title">Sách</span>
+                </a>
+              </li>
+        }
 
-          <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Khachhang")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Khách hàng</span>
-            </a>
-          </li>
-
-              <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Tacgias")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Tác giả</span>
-            </a>
-          </li>
-
-
-
-           <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Loaisaches")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Loại sách</span>
-            </a>
-          </li>
-
-           <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Saches")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Sách</span>
-            </a>
-          </li>
 
        
+        @if (@quyen.Cnnhap == true)
+        {
+                   <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Phieunhap")"  >
+                    <i class="ti-clipboard menu-icon"></i>
+                  <span class="menu-title">Phiếu nhập</span>
+                </a>
+              </li>
 
-           <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Phieunhap")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Phiếu nhập</span>
-            </a>
-          </li>
-            <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Phieuxuats")"  >
-              <i class="ti-shield menu-icon"></i>
-              <span class="menu-title">Phiếu xuất</span>
-            </a>
-          </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Nguoidungs")">
-                <i class="ti-shield menu-icon"></i>
-                <span class="menu-title">Người dùng</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="@Url.Action("Index", "Quyens")">
-                <i class="ti-shield menu-icon"></i>
-                <span class="menu-title">Quyền</span>
-            </a>
-        </li>
+        }
+
+
+
+        @if (@quyen.Cnxuat == true)
+        {
+                 <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Phieuxuats")"  >
+
+        <i class="ti-clipboard menu-icon"></i>
+                  <span class="menu-title">Phiếu xuất</span>
+                </a>
+              </li>
+        }
+
+
+
+        @if (@quyen.Cnnguoidung == true)
+        {
+                 <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Nguoidungs")">
+
+         <i class="ti-user menu-icon"></i>
+                    <span class="menu-title">Người dùng</span>
+                </a>
+            </li>
+        }
+
+
+
+        @if (@quyen.Cnquyen == true)
+        {
+                    <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Quyens")">
+                    <i class="ti-shield menu-icon"></i>
+                    <span class="menu-title">Quyền</span>
+                </a>
+            </li>
+        }
+
+
+@*
+        @if (@quyen.Cnnxb == true)
+        {
+                        <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Nxbs")">
+                        <i class="ti-shield menu-icon"></i>
+                        <span class="menu-title">NXB</span>
+                    </a>
+                </li>
+        }
+        *@
 
 
         </ul>

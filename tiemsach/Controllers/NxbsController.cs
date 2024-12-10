@@ -21,12 +21,14 @@ namespace tiemsach.Controllers
         // GET: Nxbs
         public async Task<IActionResult> Index()
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return View(await _context.Nxbs.ToListAsync());
         }
 
         // GET: Nxbs/Details/5
         public async Task<IActionResult> Details(long? id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id == null)
             {
                 return NotFound();
@@ -91,9 +93,10 @@ namespace tiemsach.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Ten,Diachi,Tinhtrang")] Nxb nxb)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             if (id != nxb.Id)
             {
-                ViewData["Layout"] = "_LayoutAdmin";
+     
                 return NotFound();
             }
 
@@ -175,6 +178,7 @@ namespace tiemsach.Controllers
 
         private bool NxbExists(long id)
         {
+            ViewData["Layout"] = "_LayoutAdmin";
             return _context.Nxbs.Any(e => e.Id == id);
         }
     }

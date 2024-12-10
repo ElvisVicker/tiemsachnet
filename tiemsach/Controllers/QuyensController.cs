@@ -9,6 +9,7 @@ using tiemsach.Data;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class QuyensController : Controller
     {
         private readonly TiemsachContext _context;
@@ -60,6 +61,10 @@ namespace tiemsach.Controllers
             ViewData["Layout"] = "_LayoutAdmin";
             if (ModelState.IsValid)
             {
+
+
+
+
                 _context.Add(quyen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
