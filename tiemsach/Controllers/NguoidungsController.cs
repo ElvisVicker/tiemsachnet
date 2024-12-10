@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using tiemsach.Data;
+using tiemsach.ViewModels;
 
 namespace tiemsach.Controllers
 {
+    [ServiceFilter(typeof(AdminRoleAttribute))]
     public class NguoidungsController : Controller
     {
         private readonly TiemsachContext _context;
@@ -88,11 +90,28 @@ namespace tiemsach.Controllers
                 Console.WriteLine("3");
                 return NotFound();
             }
+            var nguoidungVM = new NguoiDungVM
+            {
+                Id = nguoidung.Id,
+                QuyenId = nguoidung.QuyenId,
+                Hoten = nguoidung.Hoten,
+                Gioitinh = nguoidung.Gioitinh,
+                Vaitro = nguoidung.Vaitro,
+                Sodienthoai = nguoidung.Sodienthoai,
+                Diachi = nguoidung.Diachi,
+                Tinhtrang = nguoidung.Tinhtrang,
+                Image = nguoidung.Image,
+                Email = nguoidung.Email,
+                Password = nguoidung.Password,
+                CreatedAt = nguoidung.CreatedAt,
+                UpdatedAt = DateTime.Now,
+                DeletedAt = nguoidung.DeletedAt,
+            };
             Console.WriteLine("4");
             ViewData["QuyenId"] = new SelectList(_context.Quyens, "Id", "Id", nguoidung.QuyenId);
             Console.WriteLine("QuyenId: " + nguoidung.QuyenId);
 
-            return View(nguoidung);
+            return View(nguoidungVM);
         }
 
         // POST: Nguoidungs/Edit/5
@@ -100,30 +119,62 @@ namespace tiemsach.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,QuyenId,Hoten,Gioitinh,Vaitro,Sodienthoai,Diachi,Tinhtrang,Image,Email,Password,CreatedAt,UpdatedAt,DeletedAt")] Nguoidung nguoidung)
+        //public async Task<IActionResult> Edit(long id, [Bind("Id,QuyenId,Hoten,Gioitinh,Vaitro,Sodienthoai,Diachi,Tinhtrang,Image,Email,Password,CreatedAt,UpdatedAt,DeletedAt")] Nguoidung nguoidung)
+        public async Task<IActionResult> Edit(long id, NguoiDungVM nguoidungVM)
         {
             ViewData["Layout"] = "_LayoutAdmin";
-            Console.WriteLine(nguoidung.QuyenId);
-            if (id != nguoidung.Id)
+            Console.WriteLine(nguoidungVM.QuyenId);
+            ModelState.Clear();
+            if (nguoidungVM == null)
+            {
+                return NotFound();
+            }
+            var nguoidung = await _context.Nguoidungs.FindAsync(id);
+            if (id != nguoidungVM.Id)
             {
                 Console.WriteLine("5");
                 return NotFound();
-            }
-            if (!ModelState.IsValid)
-            {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-                return View(nguoidung);
             }
             if (ModelState.IsValid)
             {
                 try
                 {
                     Console.WriteLine("6");
+                    string filePath = null;
+
+                    if (nguoidungVM.ImageFile != null)
+                    {
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Customer/images");
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + nguoidungVM.ImageFile.FileName;
+                        filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await nguoidungVM.ImageFile.CopyToAsync(fileStream);
+                        }
+                        nguoidung.Image = Path.GetFileName(filePath);
+                    }
+                    nguoidung.Id = nguoidungVM.Id;
+                    nguoidung.QuyenId = nguoidungVM.QuyenId;
+                    nguoidung.Hoten = nguoidungVM.Hoten;
+                    nguoidung.Gioitinh = nguoidungVM.Gioitinh;
+                    nguoidung.Vaitro = nguoidungVM.Vaitro;
+                    nguoidung.Sodienthoai = nguoidungVM.Sodienthoai;
+                    nguoidung.Diachi = nguoidungVM.Diachi;
+                    nguoidung.Tinhtrang = nguoidungVM.Tinhtrang;
+                    nguoidung.Email = nguoidungVM.Email;
+                    nguoidung.Password = nguoidungVM.Password;
+                    nguoidung.CreatedAt = nguoidungVM.CreatedAt;
+                    nguoidung.UpdatedAt = nguoidungVM.UpdatedAt;
+                    nguoidung.DeletedAt = nguoidungVM.DeletedAt;
                     _context.Update(nguoidung);
                     await _context.SaveChangesAsync();
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {

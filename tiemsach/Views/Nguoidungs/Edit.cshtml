@@ -1,4 +1,4 @@
-﻿@model tiemsach.Data.Nguoidung
+﻿@model tiemsach.ViewModels.NguoiDungVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -48,10 +48,11 @@
                     <input class="form-check-input" asp-for="Tinhtrang" /> @Html.DisplayNameFor(model => model.Tinhtrang)
                 </label>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+            <div class="form-group" style="width: 40%;">
+                <label asp-for="ImageFile" class="control-label">Hình ảnh</label>
+                <input asp-for="ImageFile" type="file" class="form-control" id="file" hidden />
+                <div class="select-image">Chọn hình ảnh</div>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
