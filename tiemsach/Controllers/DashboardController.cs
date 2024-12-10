@@ -40,25 +40,20 @@ namespace tiemsach.Controllers
 
 
 
-            var phieuxuatData = _context.Phieuxuats.ToList();
-            var chartLabels = new List<string>();
-            var chartData = new List<int>();
+            var phieuxuatData = _context.Phieuxuats
+                .GroupBy( p => new { p.CreatedAt.Value.Year, p.CreatedAt.Value.Month })
+                .Select(g => new
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Count = g.Count()
+                })
+                .OrderBy(g => g.Year)
+                .ThenBy(g => g.Month)
+                .ToList();
 
-
-            var groupedData = phieuxuatData.GroupBy(p => p.CreatedAt)
-                                            .Select(g => new
-                                            {
-                                                Month = g.Key,
-                                                Count = g.Count()
-                                            })
-                                            .OrderBy(g => g.Month);
-
-            foreach (var item in groupedData)
-            {
-                chartLabels.Add(item.Month.ToString());
-                chartData.Add(item.Count);
-            }
-
+            var chartLabels = phieuxuatData.Select(g => $"{g.Month}/{g.Year}").ToList();
+            var chartData = phieuxuatData.Select(g => g.Count).ToList();
 
             var viewModel = new DashboardVM
             {
