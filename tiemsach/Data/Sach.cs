@@ -15,6 +15,7 @@ public partial class Sach
 
     //[Required(ErrorMessage = "Không được bỏ trống hình ảnh!")]
 
+    [Required(ErrorMessage ="Sách phải có hình ảnh!")]
     public string Image { get; set; } = null!;
     public double Gianhap { get; set; } = 0;
 

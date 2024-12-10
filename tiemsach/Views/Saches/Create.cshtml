@@ -12,36 +12,36 @@
             <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Ten" class="control-label">Tên sách</label>
+                    <label asp-for="Ten" class="control-label">Tên sách:</label>
                     <input asp-for="Ten" class="form-control" />
                     <span asp-validation-for="Ten" class="text-danger"></span>
                 </div>
                 <div class="form-group" style="width: 40%;">
-                    <label asp-for="Image" class="control-label">Hình ảnh</label>
+                    <label asp-for="Image" class="control-label">Hình ảnh:</label>
                     <input asp-for="Image" type="file" class="form-control" id="file" hidden />
                     <div class="img-area" data-img="">
                         <i class='bx bxs-cloud-upload icon'></i>
-                        <h3>Upload Image</h3>
+                        <h3>Tải hình ảnh:</h3>
                     </div>
-                    <div class="select-image">Chọn hình ảnh</div>
+                    <div class="select-image">Chọn hình ảnh:</div>
                     <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Mota" class="control-label">Mô tả</label>
+                    <label asp-for="Mota" class="control-label">Mô tả:</label>
                     <textarea asp-for="Mota" class="form-control"></textarea>
                     <span asp-validation-for="Mota" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="TacgiaId" class="control-label">Tác giả</label>
+                    <label asp-for="TacgiaId" class="control-label">Tác giả:</label>
                     <select asp-for="TacgiaId" class="form-control" asp-items="ViewBag.TacgiaId"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="LoaisachId" class="control-label">Loại sách</label>
+                    <label asp-for="LoaisachId" class="control-label">Loại sách:</label>
                     <select asp-for="LoaisachId" class="form-control" asp-items="ViewBag.LoaisachId"></select>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-light">Back to List</a>
+                    <a asp-action="Index" class="btn btn-light">Quay về danh sách</a>
                 </div>
             </form>
         </div>
