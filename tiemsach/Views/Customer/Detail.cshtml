@@ -1,0 +1,86 @@
+@model tiemsach.Data.Sach
+
+
+<div class="container-fluid py-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-5 pb-5">
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner border">
+                    <div class="product-item-img">
+                        <img class="w-100 h-100" src="~/Customer/images/@Model.Image" alt="Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 pb-5">
+            <h3 class="font-weight-semi-bold">Tac pham: @Model.Ten</h3>
+            <h4 class="font-weight-semi-bold mb-4">Tac gia: @Model.Tacgia.Ten</h4>
+          @*  <div class="d-flex mb-3">
+                <div class="text-primary mr-2">
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star-half-alt"></small>
+                    <small class="far fa-star"></small>
+                </div>
+                <small class="pt-1">(50 Reviews)</small>
+            </div>
+            *@
+
+            <h3 class="font-weight-semi-bold mb-4">Gia: @Model.Giaxuat VND</h3>
+            <h3 class="font-weight-semi-bold mb-4">So Luong: @Model.Soluong</h3>
+
+
+
+
+            <form asp-action="AddToCart" asp-controller="Cart" asp-route-id="@Model.Id">
+
+
+            <div class="d-flex align-items-center">
+                <div class="input-group quantity mr-3" style="width: 130px;">                           
+                    <input type="number" class="form-control bg-secondary text-center" min="1" max="@Model.Soluong" value="1" name="quantity" id="soluong" >           
+                </div>
+                <button type="submit" class="btn btn-primary px-3 m-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+
+            </form>
+
+
+            </div>
+           
+        </div>
+    </div>
+    <div class="row px-xl-5">
+        <div class="col">
+            <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+                <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
+          
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab-pane-1">
+                    <h4 class="mb-3">Mo ta</h4>
+              <p class="mb-4">@Model.Mota</p>
+                </div>
+               
+               
+         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.getElementById('soluong').addEventListener('input', function() {
+        const maxValue = parseInt(this.max);
+        const minValue = parseInt(this.min);
+        const value = parseInt(this.value);
+
+        if (value < minValue) {
+            this.value = minValue; 
+        } else if (value > maxValue) {
+            this.value = maxValue; 
+        }
+    });
+</script>

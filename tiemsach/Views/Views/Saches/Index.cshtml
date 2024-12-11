@@ -44,46 +44,47 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-        if(item.Tinhtrang == true){
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ten)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Loaisach.Ten)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tacgia.Ten)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gianhap)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Giaxuat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mota)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Soluong)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tinhtrang)
-                @(item.Tinhtrang ? "Đang bán" : "Ngưng bán")
-            </td>
+        @foreach (var item in Model)
+        {
+            if (item.Tinhtrang == true)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ten)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Loaisach.Ten)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tacgia.Ten)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gianhap)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Giaxuat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mota)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Soluong)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tinhtrang)
+                        @(item.Tinhtrang ? "Đang bán" : "Ngưng bán")
+                    </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
-            </td>
-        </tr>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                    </td>
+                </tr>
+            }
         }
-
-}
     </tbody>
 </table>
