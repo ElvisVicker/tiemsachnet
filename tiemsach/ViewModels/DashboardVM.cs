@@ -3,6 +3,11 @@
 namespace tiemsach.ViewModels
 {
 
+    public class TopCustomer
+    {
+        public string Ten { get; set; }
+        public int SoLanMua { get; set; }
+    }
 
     public class DashboardVM
     {
@@ -24,6 +29,6 @@ namespace tiemsach.ViewModels
 
         public List<string> LineChartLabels { get; set; }
         public List<int> LineChartData { get; set; }
-
+        public List<TopCustomer> TopCustomers { get; set; }
     }
 }
