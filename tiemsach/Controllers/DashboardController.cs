@@ -39,8 +39,7 @@ namespace tiemsach.Controllers
 
 
 
-
-            var phieuxuatData = _context.Phieuxuats
+            var phieuxuatData = _context.Phieuxuats.Where(p => p.Tinhtrang == true)
                 .GroupBy( p => new { p.CreatedAt.Value.Year, p.CreatedAt.Value.Month })
                 .Select(g => new
                 {
@@ -55,6 +54,21 @@ namespace tiemsach.Controllers
             var chartLabels = phieuxuatData.Select(g => $"{g.Month}/{g.Year}").ToList();
             var chartData = phieuxuatData.Select(g => g.Count).ToList();
 
+
+           
+
+            var topCustomer = _context.Phieuxuats.Where(p => p.Tinhtrang == true)
+                .Include(p => p.Khachhang)
+                .ThenInclude(kh => kh.IdNavigation)
+                .GroupBy(p => p.Khachhang.IdNavigation)
+                .OrderByDescending(g => g.Count())
+                .Take(5)
+                .Select(g => new TopCustomer
+                {
+                    Ten = g.Key.Hoten,
+                    SoLanMua = g.Count()
+                })
+                .ToList();
             var viewModel = new DashboardVM
             {
                 TotalKH = TotalKH,
@@ -63,6 +77,7 @@ namespace tiemsach.Controllers
                 TotalProfit = TotalProfit,
                 LineChartLabels = chartLabels,
                 LineChartData = chartData,
+                TopCustomers = topCustomer
             };
 
             return View(viewModel);
